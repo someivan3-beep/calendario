@@ -1,0 +1,2182 @@
+{
+  "pattern": "D",
+  "year": "2026",
+  "anchor": "2026-01-02",
+  "w1": "Raul",
+  "w2": "Jose",
+  "w3": "David",
+  "w4": "Ivan",
+  "w5": "Andres",
+  "holidayList": "2026-01-01\n2026-01-06\n2026-02-28\n2026-04-02\n2026-04-05\n2026-05-01\n2026-08-15\n2026-08-19\n2026-09-08\n2026-10-12\n2026-11-02\n2026-12-07\n2026-12-08\n2026-12-24\n2026-12-25\n2026-12-31",
+  "payByWorker": [
+    {
+      "base": 926.96,
+      "extra": 154.49,
+      "comp1": 92.09,
+      "comp2": 207.79,
+      "turnicidad": 110,
+      "hours": 8,
+      "hourly": 9.25,
+      "nightMult": 0.6,
+      "weekendMult": 1,
+      "holidayMult": 2
+    },
+    {
+      "base": 926.96,
+      "extra": 154.49,
+      "comp1": 92.09,
+      "comp2": 207.79,
+      "turnicidad": 110,
+      "hours": 8,
+      "hourly": 9.25,
+      "nightMult": 0.6,
+      "weekendMult": 1,
+      "holidayMult": 2
+    },
+    {
+      "base": 926.96,
+      "extra": 154.49,
+      "comp1": 92.09,
+      "comp2": 207.79,
+      "turnicidad": 110,
+      "hours": 8,
+      "hourly": 9.25,
+      "nightMult": 0.6,
+      "weekendMult": 1,
+      "holidayMult": 2
+    },
+    {
+      "base": 926.96,
+      "extra": 154.49,
+      "comp1": 92.09,
+      "comp2": 207.79,
+      "turnicidad": 110,
+      "hours": 8,
+      "hourly": 9.25,
+      "nightMult": 0.6,
+      "weekendMult": 1,
+      "holidayMult": 2
+    },
+    {
+      "base": 926.96,
+      "extra": 154.49,
+      "comp1": 92.09,
+      "comp2": 207.79,
+      "turnicidad": 110,
+      "hours": 8,
+      "hourly": 9.25,
+      "nightMult": 0.6,
+      "weekendMult": 1,
+      "holidayMult": 2
+    }
+  ],
+  "salaryWorker": "0",
+  "showMonthlyPay": true,
+  "showCoverDot": false,
+  "vacMode": true,
+  "vacWorker": "4",
+  "vacationsApplied": {
+    "2026-01-08": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-09": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-10": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-11": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-12": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-13": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-14": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-15": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-16": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-17": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-18": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-19": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-20": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-21": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-22": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-23": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-26": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-27": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-28": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-29": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-30": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-31": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-01": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-02": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-03": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-04": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-05": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-06": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-07": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-08": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-09": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-10": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-13": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-14": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-15": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-16": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-17": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-18": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-19": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-20": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-21": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-22": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-23": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-24": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-25": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-26": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-27": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-28": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-03-03": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-04": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-05": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-06": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-07": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-08": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-09": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-11": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-10": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-12": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-13": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-14": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-15": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-16": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-17": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-18": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-21": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-22": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-23": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-24": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-25": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-26": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-27": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-28": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-29": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-30": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-31": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-01": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-02": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-03": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-04": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-05": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-08": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-09": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-10": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-11": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-12": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-13": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-14": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-15": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-16": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-17": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-18": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-19": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-20": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-21": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-26": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-27": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-28": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-29": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-30": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-01": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-02": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-03": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-04": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-05": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-06": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-07": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-08": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-09": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-14": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-15": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-16": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-17": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-18": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-19": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-20": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-21": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-22": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-23": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-24": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-25": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-26": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-27": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-06-01": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-02": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-03": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-05": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-04": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-06": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-07": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-08": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-09": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-10": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-11": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-12": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-13": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-14": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-17": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-18": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-19": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-20": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-21": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-22": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-23": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-24": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-25": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-26": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-27": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-28": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-29": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-30": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "vacationsDraft": {
+    "2026-01-08": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-09": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-10": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-11": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-12": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-13": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-14": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-15": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-16": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-17": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-18": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-19": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-20": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-21": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-22": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-23": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-01-26": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-27": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-28": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-29": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-30": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-01-31": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-01": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-02": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-03": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-04": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-05": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-06": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-07": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-08": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-09": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-10": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-02-13": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-14": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-15": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-16": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-17": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-18": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-19": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-20": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-21": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-22": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-23": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-24": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-25": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-26": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-27": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-02-28": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-03-03": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-04": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-05": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-06": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-07": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-08": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-09": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-11": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-10": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-12": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-13": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-14": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-15": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-16": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-17": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-18": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-03-21": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-22": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-23": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-24": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-25": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-26": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-27": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-28": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-29": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-30": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-03-31": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-01": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-02": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-03": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-04": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-05": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-04-08": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-09": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-10": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-11": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-12": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-13": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-14": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-15": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-16": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-17": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-18": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-19": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-20": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-21": [
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    "2026-04-26": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-27": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-28": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-29": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-04-30": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-01": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-02": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-03": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-04": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-05": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-06": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-07": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-08": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-09": [
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    "2026-05-14": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-15": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-16": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-17": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-18": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-19": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-20": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-21": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-22": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-23": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-24": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-25": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-26": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-05-27": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "2026-06-01": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-02": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-03": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-05": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-04": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-06": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-07": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-08": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-09": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-10": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-11": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-12": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-13": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-14": [
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "2026-06-17": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-18": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-19": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-20": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-21": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-22": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-23": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-24": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-25": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-26": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-27": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-28": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-29": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "2026-06-30": [
+      false,
+      false,
+      false,
+      false,
+      true
+    ]
+  }
+}

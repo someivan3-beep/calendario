@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cuadrante 24/7 — Febrero y Marzo</title>
+  <style>
+    :root{
+      --grid:#222;
+      --bg:#fff;
+      --h:#f3f3f3;
+
+      --m:#e31b23;   /* Mañana */
+      --t:#1ea7ff;   /* Tarde */
+      --n:#0aa24a;   /* Noche */
+      --o:#d9d9d9;   /* Libre */
+      --v:#ffd966;   /* Vacaciones */
+    }
+    body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:16px; background:var(--bg); }
+    h2{ margin:18px 0 8px; font-size:16px; }
+    .legend{ display:flex; gap:10px; flex-wrap:wrap; font-size:12px; margin:8px 0 14px; }
+    .chip{ display:inline-flex; align-items:center; gap:6px; border:1px solid #ddd; border-radius:999px; padding:6px 10px; background:#fff; }
+    .sw{ width:12px; height:12px; border:1px solid #111; border-radius:2px; }
+    .sw.m{ background:var(--m);} .sw.t{ background:var(--t);} .sw.n{ background:var(--n);}
+    .sw.o{ background:var(--o);} .sw.v{ background:var(--v);}
+
+    .wrap{ border:1px solid #ddd; border-radius:12px; overflow:hidden; }
+    .scroller{ overflow:auto; }
+    table{ border-collapse:separate; border-spacing:0; width:max-content; min-width:1100px; border-left:1px solid var(--grid); border-top:1px solid var(--grid); }
+    th, td{
+      border-right:1px solid var(--grid);
+      border-bottom:1px solid var(--grid);
+      text-align:center;
+      vertical-align:middle;
+      padding:0;
+      min-width:44px;
+      height:30px;
+      font-size:12px;
+      font-weight:700;
+      user-select:none;
+      white-space:nowrap;
+    }
+    thead th{ position:sticky; top:0; z-index:2; background:var(--h); }
+    th.sticky, td.sticky{ position:sticky; left:0; z-index:3; background:#fff; min-width:140px; width:140px; }
+    thead th.sticky{ z-index:4; background:var(--h); }
+
+    .M{ background:var(--m); }
+    .T{ background:var(--t); }
+    .N{ background:var(--n); }
+    .O{ background:var(--o); font-weight:600; }
+    .V{ background:var(--v); }
+    .small{ font-size:11px; font-weight:700; }
+  </style>
+</head>
+<body>
+
+  <div class="legend">
+    <span class="chip"><span class="sw m"></span> Mañana</span>
+    <span class="chip"><span class="sw t"></span> Tarde</span>
+    <span class="chip"><span class="sw n"></span> Noche</span>
+    <span class="chip"><span class="sw o"></span> Libre</span>
+    <span class="chip"><span class="sw v"></span> VACACIONES</span>
+  </div>
+
+  <!-- FEBRERO -->
+  <h2>Febrero</h2>
+  <div class="wrap">
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th class="sticky">Trabajador</th>
+            <!-- 01..28 -->
+            <th>01-feb</th><th>02-feb</th><th>03-feb</th><th>04-feb</th><th>05-feb</th><th>06-feb</th><th>07-feb</th>
+            <th>08-feb</th><th>09-feb</th><th>10-feb</th><th>11-feb</th><th>12-feb</th><th>13-feb</th><th>14-feb</th>
+            <th>15-feb</th><th>16-feb</th><th>17-feb</th><th>18-feb</th><th>19-feb</th><th>20-feb</th><th>21-feb</th>
+            <th>22-feb</th><th>23-feb</th><th>24-feb</th><th>25-feb</th><th>26-feb</th><th>27-feb</th><th>28-feb</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky">Trabajador 1</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 2</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 3 (David)</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td>
+            <td class="V small">VACACIONES</td><td class="V small">VACACIONES</td><td class="V small">VACACIONES</td><td class="V small">VACACIONES</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 4</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 5</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MARZO -->
+  <h2>Marzo</h2>
+  <div class="wrap">
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th class="sticky">Trabajador</th>
+            <!-- 01..31 -->
+            <th>01-mar</th><th>02-mar</th><th>03-mar</th><th>04-mar</th><th>05-mar</th><th>06-mar</th><th>07-mar</th>
+            <th>08-mar</th><th>09-mar</th><th>10-mar</th><th>11-mar</th><th>12-mar</th><th>13-mar</th><th>14-mar</th>
+            <th>15-mar</th><th>16-mar</th><th>17-mar</th><th>18-mar</th><th>19-mar</th><th>20-mar</th><th>21-mar</th>
+            <th>22-mar</th><th>23-mar</th><th>24-mar</th><th>25-mar</th><th>26-mar</th><th>27-mar</th><th>28-mar</th>
+            <th>29-mar</th><th>30-mar</th><th>31-mar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky">Trabajador 1</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 2</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 3 (David)</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 4</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+          </tr>
+
+          <tr>
+            <td class="sticky">Trabajador 5</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td>
+            <td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="O">Libre</td><td class="O">Libre</td><td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td>
+            <td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td><td class="O">Libre</td>
+            <td class="M">Mañana</td><td class="M">Mañana</td><td class="T">Tarde</td><td class="T">Tarde</td><td class="N">Noche</td><td class="N">Noche</td><td class="O">Libre</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

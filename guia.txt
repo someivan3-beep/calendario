@@ -1,0 +1,283 @@
+Definiciones (para evitar ambigüedades)
+
+Turnos:
+
+M (Mañana): 06:00–14:00
+
+T (Tarde): 14:00–22:00
+
+N (Noche): 22:00–06:00
+
+Jornada trabajada: cualquier día en el que el trabajador esté asignado a M, T o N (8 h), o a un turno de 12 h (ver más abajo).
+
+Descanso: día sin asignación (libre).
+
+Bloque de trabajo / periodo de días de trabajo: secuencia de días consecutivos con jornada trabajada (M/T/N/12h), sin días libres intermedios.
+
+Fin de semana trabajado (según tu criterio):
+Se contabiliza por día. Es decir:
+
+trabajar un sábado cuenta como 1 día de fin de semana trabajado,
+
+trabajar un domingo cuenta como 1 día de fin de semana trabajado,
+
+si se trabajan ambos, cuentan 2.
+
+Transición entre turnos: comparación del último turno trabajado antes de un descanso (si lo hay) con el primer turno tras ese descanso.
+
+Reglas no negociables (calendario definitivo)
+A) Descansos y límites de carga
+
+Descanso mínimo entre bloques de trabajo
+Entre el final de un bloque de trabajo y el inicio del siguiente, el trabajador debe tener al menos 48 horas consecutivas de descanso (equivalente a 2 días libres seguidos).
+
+Máximo de días seguidos trabajando
+Ningún trabajador puede trabajar más de 6 días consecutivos.
+
+Máximo de días consecutivos en el mismo turno
+Ningún trabajador puede hacer más de 4 días consecutivos en el mismo tipo de turno (M, T o N), excepto de mañana (M) que pueden ser maximo 5
+
+Límite de noches seguidas
+Ningún trabajador puede hacer más de 4 noches consecutivas.
+
+B) Reglas de cambio de turno (compatibilidad y descansos)
+
+Cambios permitidos de un día para otro
+
+M → T permitido de un día a otro.
+
+T → N permitido de un día a otro.
+
+Cambio T → M
+
+Solo permitido si hay ≥48 horas de descanso entre ambos (mínimo 2 días libres seguidos).
+
+Cambio N → M
+
+Solo permitido si hay ≥72 horas de descanso entre ambos (mínimo 3 días libres seguidos).
+
+Prohibición N → T
+
+Prohibido pasar de N → T de un día para otro.
+
+Solo se permite si existe un intervalo de ≥24 horas entre ambos, y preferentemente con descanso.
+(En la práctica, se debe planificar como una transición con días libres para asegurar recuperación y cumplimiento de descansos.)
+
+Salida de noches: descanso mínimo
+
+Tras finalizar un bloque que incluya noches, el trabajador debe tener mínimo 48 horas consecutivas de descanso, aunque el siguiente bloque no sea de mañana.
+(Esto es adicional a la regla 7 cuando el siguiente turno sea M, que exige 72 h.)
+
+C) Equidad anual (para evitar conflictos)
+
+Equidad en jornadas totales
+
+Al cierre del año, la diferencia entre el trabajador con más jornadas y el de menos jornadas debe ser ≤ 5 jornadas.
+
+Equidad en noches
+
+Al cierre del año, la diferencia entre el trabajador con más noches y el de menos noches debe ser ≤ 5 noches.
+
+Equidad en fines de semana
+
+Al cierre del año, la diferencia entre el trabajador con más días de fin de semana trabajados (sábados+domingos) y el de menos debe ser ≤ 5 días.
+
+D) Modo vacaciones (sin backup)
+
+Estas reglas se aplican cuando hay vacaciones (o una ausencia planificada) y es necesario recomponer la cobertura.
+
+Uso de turnos de 12 horas
+
+Se permiten turnos de 12 h únicamente para cubrir ausencias (vacaciones/contingencias) y solo si ayudan a cubrir 2 turnos contiguos de manera viable.
+
+No se permite programar más de 1 turno de 12 h consecutivo al mismo trabajador.
+
+Extensión excepcional de bloques
+
+Se permite extender un bloque de trabajo de un trabajador para cubrir una ausencia, siempre que:
+
+no se supere el máximo de 6 días seguidos trabajando (regla 2),
+
+se mantengan las reglas de cambio de turno (reglas 5–9),
+
+y se compense posteriormente con descanso (ver regla 15).
+
+Compensación obligatoria tras cobertura por vacaciones
+
+Toda cobertura extraordinaria (por 12 h o por extensión de bloque) debe llevar asociada una compensación en descanso posterior que mantenga el cumplimiento de:
+
+descanso mínimo entre bloques (48 h),
+
+límites de días seguidos (≤6),
+
+y equidad anual (reglas 10–12).
+
+La compensación debe programarse de forma explícita en el calendario (no “a voluntad”).
+
+E) Condición estructural (cobertura diaria)
+
+Cobertura mínima diaria
+
+Cada día debe haber cobertura completa de los tres turnos M, T y N.
+
+Con 5 trabajadores, el diseño base debe permitir que cada día existan exactamente 3 trabajadores asignados (M/T/N) y 2 trabajadores en descanso, salvo ajustes por vacaciones donde se activan reglas 13–15.
+
+ELECCION DE vacaciones:
+
+1) Método general para cubrir una vacación (aplicable a cualquiera)
+Paso 1 — Convertir la vacación en “huecos”
+
+Para el trabajador X, marca vacaciones en el rango. Los huecos reales son solo los días en que X estaba asignado a M/T/N (si ya era O, no hay hueco).
+
+Paso 2 — Orden de movimientos permitidos (siempre el mismo)
+
+Para cada hueco (día + turno):
+
+Movimiento A (preferido): “donar” 1 día dentro de un descanso largo de otro trabajador
+
+Solo se puede “robar” un día libre si el trabajador sigue teniendo ≥48 h seguidas (mínimo 2 días libres consecutivos) entre bloques.
+
+Regla práctica:
+
+Si alguien tiene 3 días O seguidos, puedes usar 1 (le quedan 2).
+
+Si alguien tiene 4 días O seguidos, puedes usar 1 o 2 (le quedan 2).
+
+Movimiento B: Extender bloque de alguien (máx 6 días seguidos)
+
+Un trabajador que ya está en bloque puede “estirar” 1–2 días para cubrir un hueco, siempre que:
+
+no pase de 6 días seguidos,
+
+y no rompa descansos/tipos de cambio (T→M con 48 h, N→M con 72 h, N→T prohibido).
+
+Movimiento C: Turno de 12 h (máx 1 seguido) para “convertir un día de 3 turnos en un día de 2 turnos”
+
+En días concretos (muy típico en fines de semana o en picos de ausencia), se puede cubrir el día con 2 personas en vez de 3.
+
+Operativamente suele traducirse en dos turnos 12 h (por ejemplo, 06–18 y 18–06) ese día.
+
+Condición: no asignar 12 h en días consecutivos a la misma persona.
+
+Movimiento D: Permutas (swap)
+
+Intercambiar turnos entre dos personas para que el que cubre no haga un cambio prohibido y el otro tampoco.
+
+Paso 3 — Reglas de “sanidad” al cerrar el plan
+
+Nadie pierde el descanso mínimo ≥48 h entre bloques.
+
+Nadie supera 6 días seguidos.
+
+Se respeta el límite de noches seguidas ≤4 y T seguidas ≤4 (M seguidas ≤5).
+
+Transiciones:
+
+M→T y T→N permitidas,
+
+T→M solo con ≥48 h,
+
+N→M solo con ≥72 h,
+
+N→T solo con ≥48 h,
+
+tras noches: ≥48 h mínimo.
+
+Se actualiza “balance anual”: jornadas/noches/findes dentro de ±5.
+
+2) Cómo se aplica por cada opción de calendario
+Opción J (25 días) — MMMMM-OOO-TTTNN-OOO-TTNNN-OOOO
+
+Es la más “vacacionable”.
+Razón: tiene descansos de 3, 3 y 4 días; eso permite “donar” días sin romper la regla de 48 h.
+
+Estrategia recomendada
+
+Cobertura por donación (Movimiento A) como norma:
+
+De cada bloque de 3O puedes tomar 1 día.
+
+Del bloque de 4O puedes tomar hasta 2 días.
+
+Para una semana de vacación, normalmente basta con distribuir la cobertura entre los 4 restantes “mordiendo” 1 día a varios descansos largos, sin necesidad de 12 h.
+
+Cuándo usar 12 h aquí
+
+Si la vacación cae en un tramo con muchas noches o muchos fines de semana y no quieres cargar noches a 2 personas.
+
+Si quieres minimizar el número de “días robados” a descansos.
+
+Resultado típico
+
+Se cubre sin romper reglas y sin deformar el patrón de forma agresiva.
+
+Opción I (15 días) — MMMTTT-OO-NNN-OOOO
+
+Vacaciones más difíciles que J, pero razonables.
+Punto clave: tiene un descanso corto de 2O que es intocable si quieres mantener la regla 48 h entre bloques (si quitas 1 día, ya no quedan 48 h).
+
+Estrategia recomendada
+
+Usar casi exclusivamente los descansos de 4O de los demás como “banco”:
+
+De un bloque de 4O, puedes tomar 1–2 días.
+
+Complementar con Movimiento B (extender a 6) en semanas donde el banco de 4O no alcance.
+
+Reservar Movimiento C (12 h) para:
+
+fines de semana,
+
+o cuando el hueco sea una N y quieras evitar repartir noches.
+
+Resultado típico
+
+Funciona, pero exige planificar: al cubrir muchos días, los 4O son el recurso principal.
+
+Opción D (10 días) — tu “2M-2T-2N-4O” con offsets invertidos
+
+Flexible para cubrir puntualmente, porque hay 4O recurrentes (banco claro).
+Como I, los descansos largos permiten donación; y como el ciclo es corto, recolocar es rápido, pero puede generar más “efecto dominó” si se encadenan ajustes.
+
+Estrategia recomendada
+
+Cobertura por donación desde los 4O (Movimiento A) y, si hace falta, extender a 6 (Movimiento B).
+
+12 h útil para que un día “cueste” 2 personas en vez de 3.
+
+Resultado típico
+
+Muy buena para ausencias cortas/medias; para vacaciones largas, conviene protocolizar compensaciones para no sesgar noches/findes.
+
+Opción B (20 días) — MMMM-OO-TTTT-OO-NNNN-OOOO
+
+La más frágil para vacaciones (tu intuición era correcta).
+Porque los descansos intermedios son de 2O, y por tanto no puedes donar nada ahí sin romper la regla de 48 h. Solo es “donable” el OOOO final.
+
+Estrategia recomendada
+
+Tratar el OOOO de los demás como “banco” principal:
+
+Puedes tomar 1–2 días de ese bloque (dejando 2O).
+
+Cuando no alcance:
+
+usar extensión a 6 días (Movimiento B), idealmente en M→T o T→N (transiciones fáciles),
+
+y usar 12 h en días puntuales para reducir consumo de personal.
+
+Para vacaciones largas en B, es habitual necesitar una combinación de:
+
+banco de 4O + extensiones + 12 h ocasionales.
+
+Resultado típico
+
+Se puede, pero requiere más “ingeniería” que J e I.
+
+3) Regla práctica imprescindible para que esto sea viable
+
+Con estas reglas estrictas y sin backup, para que el modo vacaciones sea sostenible en la práctica, conviene aplicar:
+
+No solapar vacaciones (máximo 1 persona de vacaciones a la vez), salvo que aceptéis romper alguna regla o reducir cobertura.
+
+Si permitís solapes, el problema pasa de “cuadrar” a “optimización con sacrificios” y normalmente acabáis rompiendo 48 h entre bloques o excediendo 6 seguidos.
