@@ -128,6 +128,27 @@
       gap:8px;
       align-items:center;
     }
+    .view-toggle{
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .view-toggle button{
+      width:auto;
+      padding:6px 10px;
+      font-size:11px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #cfd5df;
+      color:#111827;
+      box-shadow:var(--shadow-inset);
+      cursor:pointer;
+    }
+    .view-toggle button.active{
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
+    }
     .worker-focus-buttons{
       display:flex;
       flex-wrap:wrap;
@@ -517,6 +538,11 @@
     @media (max-width: 640px){
       h1{ font-size:26px; }
       .page{ padding:20px 16px 28px; }
+    }
+    @media (min-width: 901px){
+      .view-toggle{
+        display:none;
+      }
     }
     @media (max-width: 640px){
       .topbar{
@@ -1357,6 +1383,8 @@
       .month-mobile{ display:none; }
       body.worker-filtered .month-wrap .scroller{ display:none; }
       body.worker-filtered .month-mobile{ display:grid; gap:12px; }
+      body.mobile-cards .month-wrap .scroller{ display:none; }
+      body.mobile-cards .month-mobile{ display:grid; gap:12px; }
     }
 
     /* Export móvil */
@@ -1573,6 +1601,10 @@
       <div class="topbar-group">
         <button id="go-today" class="secondary" type="button">Mes actual</button>
         <div id="worker-focus-buttons" class="worker-focus-buttons"></div>
+        <div id="view-toggle" class="view-toggle">
+          <button type="button" data-view="cards">Tarjetas</button>
+          <button type="button" data-view="table">Tabla</button>
+        </div>
       </div>
       <div class="topbar-group">
         <button id="top-save-netlify" class="secondary" type="button">Guardar</button>
@@ -1923,6 +1955,8 @@
   let IS_DIRTY = false;
   let SUPPRESS_DIRTY = false;
   const ANNUAL_TOGGLE_KEY = "tvacAnnualSummaryOpen";
+  let MOBILE_VIEW = "cards";
+  const MOBILE_VIEW_KEY = "tvacMobileView";
   let CURRENT_SCHEDULE = {};
   let CURRENT_COVER = {};
 
@@ -2410,6 +2444,7 @@
       btn.classList.toggle("active", btn.dataset.filter === String(value));
     });
     applyWorkerFilter();
+    applyMobileView();
   }
   function renderTopbarFilterButtons(workers){
     const wrap = document.getElementById("worker-focus-buttons");
@@ -2436,6 +2471,36 @@
         CURRENT_WORKER_FILTER = stored;
       }
     }catch(_e){}
+  }
+  function loadMobileView(){
+    try{
+      const stored = localStorage.getItem(MOBILE_VIEW_KEY);
+      if(stored === "table" || stored === "cards") MOBILE_VIEW = stored;
+    }catch(_e){}
+  }
+  function updateMobileViewButtons(){
+    const wrap = document.getElementById("view-toggle");
+    if(!wrap) return;
+    wrap.querySelectorAll("button").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
+    });
+  }
+  function applyMobileView(){
+    const isMobile = window.matchMedia("(max-width: 900px)").matches || document.body.classList.contains("mobile-export");
+    if(!isMobile){
+      document.body.classList.remove("mobile-cards");
+      return;
+    }
+    const forceCards = CURRENT_WORKER_FILTER === "all";
+    if(forceCards && MOBILE_VIEW !== "cards"){
+      MOBILE_VIEW = "cards";
+      try{
+        localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
+      }catch(_e){}
+    }
+    const useCards = MOBILE_VIEW !== "table";
+    document.body.classList.toggle("mobile-cards", useCards);
+    updateMobileViewButtons();
   }
   function renderLegend(usage, showDiff){
     const legend = document.querySelector(".legend");
@@ -3748,6 +3813,7 @@
       document.getElementById("w5").value.trim() || "E",
     ];
     loadWorkerFilter();
+    loadMobileView();
     if(CURRENT_WORKER_FILTER !== "all"){
       const idx = Number(CURRENT_WORKER_FILTER);
       if(!Number.isFinite(idx) || idx < 0 || idx >= workers.length){
@@ -3844,6 +3910,7 @@
     }
 
     renderLegend(legendUsage, showDiff);
+    applyMobileView();
 
     annualContainer.appendChild(createSummaryKpis(workers, annualTotals, `Resumen anual ${year}`, "kpi-annual", { showPay: showMonthlyPay, showNet: showNetPay, showHolidays: true, showLegend: true }));
     applyWorkerFilter();
@@ -3899,6 +3966,7 @@
   const netlifySaveBtn = document.getElementById("netlify-save");
   const goTodayBtn = document.getElementById("go-today");
   const topSaveNetlify = document.getElementById("top-save-netlify");
+  const viewToggle = document.getElementById("view-toggle");
   const coverDotToggle = document.getElementById("show-cover-dot");
   if(exportBtn){
     exportBtn.addEventListener("click", () => {
@@ -3967,6 +4035,17 @@
       if(target){
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+    });
+  }
+  if(viewToggle){
+    viewToggle.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-view]");
+      if(!btn) return;
+      MOBILE_VIEW = btn.dataset.view === "table" ? "table" : "cards";
+      try{
+        localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
+      }catch(_e){}
+      applyMobileView();
     });
   }
   const exportHtmlBtn = document.getElementById("export-html");
@@ -4119,7 +4198,10 @@
     const clone = document.documentElement.cloneNode(true);
     const body = clone.querySelector("body");
     if(body){
-      if(mobile) body.classList.add("mobile-export");
+      if(mobile){
+        body.classList.add("mobile-export");
+        body.classList.add("mobile-cards");
+      }
       body.classList.remove("modal-open");
       body.classList.remove("worker-filtered");
       const showGross = includePay && cfg.showMonthlyPay;
@@ -4586,6 +4668,8 @@
       if(e.key === "Escape" && exportModal.classList.contains("open")) closeExportModal();
     });
   }
+
+  window.addEventListener("resize", applyMobileView);
 
   loadConfig();
   applyConfigFromHash();
