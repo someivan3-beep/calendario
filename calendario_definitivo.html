@@ -128,6 +128,27 @@
       gap:8px;
       align-items:center;
     }
+    .worker-focus-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .worker-focus-buttons button{
+      width:auto;
+      padding:6px 10px;
+      font-size:11px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #cfd5df;
+      color:#111827;
+      box-shadow:var(--shadow-inset);
+      cursor:pointer;
+    }
+    .worker-focus-buttons button.active{
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
+    }
     .topbar .secondary{
       width:auto;
       padding:8px 12px;
@@ -1376,9 +1397,10 @@
     }
     body.mobile-export th,
     body.mobile-export td{
-      height:30px;
-      font-size:10px;
-      padding:0 2px;
+      height:32px;
+      font-size:11px;
+      padding:0 3px;
+      min-width:30px;
     }
     body.mobile-export th.sticky,
     body.mobile-export td.sticky{
@@ -1444,7 +1466,14 @@
       -webkit-overflow-scrolling:touch;
     }
     body.mobile-export table{
-      min-width:900px;
+      min-width:1400px;
+      width:max-content;
+    }
+    body.mobile-export .dow{
+      font-size:9px;
+    }
+    body.mobile-export .dom{
+      font-size:10px;
     }
 
     tbody tr:hover td{
@@ -1543,15 +1572,7 @@
     <div class="topbar">
       <div class="topbar-group">
         <button id="go-today" class="secondary" type="button">Mes actual</button>
-        <div class="topbar-field">
-          <input id="worker-search" type="text" placeholder="Buscar trabajador…" list="worker-list" />
-          <datalist id="worker-list"></datalist>
-        </div>
-        <label class="topbar-toggle">
-          <input id="focus-mode" type="checkbox" />
-          Foco
-        </label>
-        <select id="worker-focus"></select>
+        <div id="worker-focus-buttons" class="worker-focus-buttons"></div>
       </div>
       <div class="topbar-group">
         <button id="top-save-netlify" class="secondary" type="button">Guardar</button>
@@ -1897,13 +1918,10 @@
   let GLOBAL_REDO = [];
   const GLOBAL_HISTORY_LIMIT = 300;
   let CURRENT_WORKER_FILTER = "all";
-  let CURRENT_WORKERS = [];
   let NETLIFY_DB_AUTO_LOADED = false;
   let NETLIFY_DB_LOADED = false;
   let IS_DIRTY = false;
   let SUPPRESS_DIRTY = false;
-  let FOCUS_MODE = false;
-  const FOCUS_KEY = "tvacFocusMode";
   const ANNUAL_TOGGLE_KEY = "tvacAnnualSummaryOpen";
   let CURRENT_SCHEDULE = {};
   let CURRENT_COVER = {};
@@ -2363,8 +2381,7 @@
     });
   }
   function applyWorkerFilter(){
-    const isMobile = document.body.classList.contains("mobile-export");
-    const filter = (!isMobile && !FOCUS_MODE) ? "all" : CURRENT_WORKER_FILTER;
+    const filter = CURRENT_WORKER_FILTER;
     const rows = document.querySelectorAll("#calendar tr[data-worker]");
     const cards = document.querySelectorAll("#calendar .worker-card[data-worker]");
     const hide = (el) => el.classList.add("worker-hidden");
@@ -2388,35 +2405,29 @@
     buttons.forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.filter === String(value));
     });
+    const focusButtons = document.querySelectorAll("#worker-focus-buttons button");
+    focusButtons.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.filter === String(value));
+    });
     applyWorkerFilter();
   }
-  function syncFocusControls(workers){
-    const select = document.getElementById("worker-focus");
-    const list = document.getElementById("worker-list");
-    if(select){
-      const current = select.value || "all";
-      select.innerHTML = "";
-      const allOpt = document.createElement("option");
-      allOpt.value = "all";
-      allOpt.textContent = "Todos";
-      select.appendChild(allOpt);
-      workers.forEach((name, idx) => {
-        const opt = document.createElement("option");
-        opt.value = String(idx);
-        opt.textContent = name || `Trabajador ${idx+1}`;
-        select.appendChild(opt);
-      });
-      select.value = String(CURRENT_WORKER_FILTER || current);
-      select.disabled = !FOCUS_MODE;
-    }
-    if(list){
-      list.innerHTML = "";
-      workers.forEach((name) => {
-        const opt = document.createElement("option");
-        opt.value = name;
-        list.appendChild(opt);
-      });
-    }
+  function renderTopbarFilterButtons(workers){
+    const wrap = document.getElementById("worker-focus-buttons");
+    if(!wrap) return;
+    wrap.innerHTML = "";
+    const makeBtn = (label, value) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = label;
+      btn.dataset.filter = value;
+      if(String(CURRENT_WORKER_FILTER) === String(value)) btn.classList.add("active");
+      btn.addEventListener("click", () => setWorkerFilter(value));
+      return btn;
+    };
+    wrap.appendChild(makeBtn("Todos", "all"));
+    workers.forEach((name, idx) => {
+      wrap.appendChild(makeBtn(name || `Trabajador ${idx+1}`, String(idx)));
+    });
   }
   function loadWorkerFilter(){
     try{
@@ -2425,15 +2436,6 @@
         CURRENT_WORKER_FILTER = stored;
       }
     }catch(_e){}
-  }
-  function loadFocusMode(){
-    try{
-      FOCUS_MODE = localStorage.getItem(FOCUS_KEY) === "1";
-    }catch(_e){}
-    const toggle = document.getElementById("focus-mode");
-    if(toggle) toggle.checked = FOCUS_MODE;
-    const select = document.getElementById("worker-focus");
-    if(select) select.disabled = !FOCUS_MODE;
   }
   function renderLegend(usage, showDiff){
     const legend = document.querySelector(".legend");
@@ -3745,9 +3747,7 @@
       document.getElementById("w4").value.trim() || "D",
       document.getElementById("w5").value.trim() || "E",
     ];
-    CURRENT_WORKERS = workers.slice();
     loadWorkerFilter();
-    loadFocusMode();
     if(CURRENT_WORKER_FILTER !== "all"){
       const idx = Number(CURRENT_WORKER_FILTER);
       if(!Number.isFinite(idx) || idx < 0 || idx >= workers.length){
@@ -3758,7 +3758,7 @@
     syncManualWorkers(workers);
     syncSalaryWorkers(workers);
     renderWorkerFilterButtons(workers);
-    syncFocusControls(workers);
+    renderTopbarFilterButtons(workers);
 
     const container = document.getElementById("calendar");
     container.innerHTML = "";
@@ -3899,9 +3899,6 @@
   const netlifySaveBtn = document.getElementById("netlify-save");
   const goTodayBtn = document.getElementById("go-today");
   const topSaveNetlify = document.getElementById("top-save-netlify");
-  const focusToggle = document.getElementById("focus-mode");
-  const focusSelect = document.getElementById("worker-focus");
-  const workerSearch = document.getElementById("worker-search");
   const coverDotToggle = document.getElementById("show-cover-dot");
   if(exportBtn){
     exportBtn.addEventListener("click", () => {
@@ -3969,58 +3966,6 @@
       const target = document.querySelector(`.month-wrap[data-year="${year}"][data-month="${now.getMonth()}"]`);
       if(target){
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-  }
-  if(focusToggle){
-    focusToggle.addEventListener("change", () => {
-      FOCUS_MODE = focusToggle.checked;
-      try{
-        localStorage.setItem(FOCUS_KEY, FOCUS_MODE ? "1" : "0");
-      }catch(_e){}
-      if(focusSelect) focusSelect.disabled = !FOCUS_MODE;
-      if(!FOCUS_MODE){
-        setWorkerFilter("all");
-      }else if(focusSelect && focusSelect.value){
-        setWorkerFilter(focusSelect.value);
-      }
-      applyWorkerFilter();
-    });
-  }
-  if(focusSelect){
-    focusSelect.addEventListener("change", () => {
-      const value = focusSelect.value;
-      if(value && value !== "all"){
-        if(focusToggle && !focusToggle.checked){
-          focusToggle.checked = true;
-          FOCUS_MODE = true;
-          try{ localStorage.setItem(FOCUS_KEY, "1"); }catch(_e){}
-        }
-        setWorkerFilter(value);
-      }else{
-        setWorkerFilter("all");
-      }
-      applyWorkerFilter();
-    });
-  }
-  if(workerSearch){
-    workerSearch.addEventListener("input", () => {
-      const query = workerSearch.value.trim().toLowerCase();
-      if(!query){
-        if(FOCUS_MODE) setWorkerFilter("all");
-        return;
-      }
-      const idx = CURRENT_WORKERS.findIndex((w) => String(w || "").toLowerCase().includes(query));
-      if(idx >= 0){
-        if(focusToggle && !focusToggle.checked){
-          focusToggle.checked = true;
-          FOCUS_MODE = true;
-          try{ localStorage.setItem(FOCUS_KEY, "1"); }catch(_e){}
-          if(focusSelect) focusSelect.disabled = false;
-        }
-        if(focusSelect) focusSelect.value = String(idx);
-        setWorkerFilter(String(idx));
-        applyWorkerFilter();
       }
     });
   }
