@@ -1385,9 +1385,6 @@
       body.worker-filtered .month-mobile{ display:grid; gap:12px; }
       body.mobile-cards .month-wrap .scroller{ display:none; }
       body.mobile-cards .month-mobile{ display:grid; gap:12px; }
-      body.mobile-all .month-wrap .scroller{ display:none; }
-      body.mobile-all .month-mobile{ display:none; }
-      body.mobile-all .month-mobile-all{ display:grid; gap:12px; }
     }
 
     /* Export móvil */
@@ -1544,97 +1541,6 @@
     }
     .day-pill.manual{
       box-shadow:inset 0 0 0 2px rgba(99,102,241,0.6);
-    }
-
-    .month-mobile-all{
-      display:none;
-    }
-    .day-card{
-      border:1px solid rgba(15,23,42,0.08);
-      border-radius:14px;
-      padding:10px 12px;
-      background:#fff;
-      box-shadow:var(--shadow-inset);
-    }
-    .day-card.wknd{
-      background:rgba(245,237,226,0.65);
-    }
-    .day-card.holiday{
-      border-color:rgba(245,158,11,0.5);
-    }
-    .day-card-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      margin-bottom:8px;
-    }
-    .day-card-date{
-      display:flex;
-      align-items:baseline;
-      gap:6px;
-      font-weight:700;
-    }
-    .day-card-date .day-num{
-      font-size:16px;
-    }
-    .day-card-date .day-dow{
-      font-size:11px;
-      text-transform:uppercase;
-      color:var(--muted);
-      letter-spacing:0.3px;
-    }
-    .day-card-tags{
-      display:flex;
-      gap:6px;
-      align-items:center;
-    }
-    .day-tag{
-      font-size:10px;
-      padding:2px 6px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.12);
-      background:#fff;
-      color:#1f2937;
-      font-weight:600;
-    }
-    .day-card-grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:6px;
-    }
-    .day-worker{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:6px;
-      padding:6px 8px;
-      border-radius:10px;
-      border:1px solid rgba(15,23,42,0.08);
-      background:#f8fafc;
-      font-size:11px;
-      font-weight:600;
-      text-transform:uppercase;
-    }
-    .day-worker .dw-name{
-      text-transform:none;
-      font-weight:600;
-      color:#111827;
-    }
-    .day-worker .dw-shift{
-      font-weight:800;
-    }
-    .day-worker.M{ background:rgba(255,106,91,0.16); border-color:rgba(255,106,91,0.45); }
-    .day-worker.T{ background:rgba(61,166,255,0.16); border-color:rgba(61,166,255,0.45); }
-    .day-worker.N{ background:rgba(24,180,107,0.16); border-color:rgba(24,180,107,0.45); }
-    .day-worker.O{ background:rgba(233,236,241,0.7); border-color:rgba(148,163,184,0.3); }
-    .day-worker.V{ background:rgba(255,232,163,0.75); border-color:rgba(245,158,11,0.5); }
-    .day-worker.manual{
-      box-shadow:inset 0 0 0 2px rgba(99,102,241,0.5);
-    }
-    .day-worker.diff{
-      outline:2px dashed rgba(99,102,241,0.55);
-      outline-offset:-2px;
     }
 
     .cell span{
@@ -2575,27 +2481,24 @@
   function updateMobileViewButtons(){
     const wrap = document.getElementById("view-toggle");
     if(!wrap) return;
-    const isAll = CURRENT_WORKER_FILTER === "all";
     wrap.querySelectorAll("button").forEach((btn) => {
-      if(isAll){
-        const isCards = btn.dataset.view === "cards";
-        btn.disabled = !isCards;
-        btn.classList.toggle("active", isCards);
-      }else{
-        btn.disabled = false;
-        btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
-      }
+      btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
     });
   }
   function applyMobileView(){
     const isMobile = window.matchMedia("(max-width: 900px)").matches || document.body.classList.contains("mobile-export");
     if(!isMobile){
       document.body.classList.remove("mobile-cards");
-      document.body.classList.remove("mobile-all");
       return;
     }
-    document.body.classList.toggle("mobile-all", CURRENT_WORKER_FILTER === "all");
-    const useCards = CURRENT_WORKER_FILTER !== "all" && MOBILE_VIEW !== "table";
+    const forceCards = CURRENT_WORKER_FILTER === "all";
+    if(forceCards && MOBILE_VIEW !== "cards"){
+      MOBILE_VIEW = "cards";
+      try{
+        localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
+      }catch(_e){}
+    }
+    const useCards = MOBILE_VIEW !== "table";
     document.body.classList.toggle("mobile-cards", useCards);
     updateMobileViewButtons();
   }
@@ -3662,8 +3565,6 @@
 
     const mobileWrap = document.createElement("div");
     mobileWrap.className = "month-mobile";
-    const mobileAllWrap = document.createElement("div");
-    mobileAllWrap.className = "month-mobile-all";
 
     const table = document.createElement("table");
 
@@ -3885,64 +3786,10 @@
       mobileWrap.appendChild(card);
     });
 
-    const shortName = (name) => {
-      const clean = (name || "").trim();
-      if(!clean) return "";
-      const first = clean.split(/\s+/)[0];
-      return first.slice(0, 3);
-    };
-    for(let d=1; d<=daysInMonth; d++){
-      const date = new Date(year, monthIdx, d);
-      const iso = `${year}-${fmt2(monthIdx+1)}-${fmt2(d)}`;
-      const jsDow = date.getDay();
-      const dowMon0 = (jsDow + 6) % 7;
-      const holiday = holidaySet.has(iso);
-      const card = document.createElement("div");
-      card.className = "day-card";
-      if(isWeekend(date)) card.classList.add("wknd");
-      if(holiday) card.classList.add("holiday");
-      card.dataset.date = iso;
-      const head = document.createElement("div");
-      head.className = "day-card-head";
-      head.innerHTML = `
-        <div class="day-card-date">
-          <span class="day-num">${fmt2(d)}</span>
-          <span class="day-dow">${DOW_ES[dowMon0]}</span>
-        </div>
-        <div class="day-card-tags">
-          ${holiday ? `<span class="day-tag">Festivo</span>` : ""}
-        </div>
-      `;
-      card.appendChild(head);
-
-      const grid = document.createElement("div");
-      grid.className = "day-card-grid";
-      workers.forEach((name, wIdx) => {
-        const baseShift = stateFor(wIdx, date, opt, anchor);
-        const rawShift = resolveShift(date, iso, wIdx, opt, anchor, schedule);
-        const manualShift = getManualOverride(MANUAL_OVERRIDES, iso, wIdx);
-        const displayVacation = getVacationDisplay(iso, wIdx);
-        const s = displayVacation ? "V" : (rawShift || "O");
-        const diff = showDiff && s !== baseShift;
-        const pill = document.createElement("div");
-        pill.className = `day-worker ${s}`;
-        if(!displayVacation && manualShift) pill.classList.add("manual");
-        if(diff) pill.classList.add("diff");
-        pill.dataset.date = iso;
-        pill.dataset.worker = String(wIdx);
-        pill.dataset.shift = s;
-        pill.innerHTML = `<span class="dw-name">${shortName(name) || `T${wIdx+1}`}</span><span class="dw-shift">${s}</span>`;
-        grid.appendChild(pill);
-      });
-      card.appendChild(grid);
-      mobileAllWrap.appendChild(card);
-    }
-
     table.appendChild(tbody);
     scroller.appendChild(table);
     wrap.appendChild(scroller);
     wrap.appendChild(mobileWrap);
-    wrap.appendChild(mobileAllWrap);
     return wrap;
   }
 
@@ -4353,11 +4200,7 @@
     if(body){
       if(mobile){
         body.classList.add("mobile-export");
-        if(CURRENT_WORKER_FILTER === "all"){
-          body.classList.add("mobile-all");
-        }else if(MOBILE_VIEW !== "table"){
-          body.classList.add("mobile-cards");
-        }
+        body.classList.add("mobile-cards");
       }
       body.classList.remove("modal-open");
       body.classList.remove("worker-filtered");
@@ -4701,7 +4544,7 @@
   const calendarEl = document.getElementById("calendar");
   if(calendarEl){
     calendarEl.addEventListener("click", (e) => {
-      const cell = e.target.closest("td.cell, .day-pill, .day-worker");
+      const cell = e.target.closest("td.cell, .day-pill");
       if(!cell) return;
       const workerIdx = Number(cell.dataset.worker || "0");
       const dateStr = cell.dataset.date;
