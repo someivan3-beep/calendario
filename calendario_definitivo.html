@@ -2481,8 +2481,16 @@
   function updateMobileViewButtons(){
     const wrap = document.getElementById("view-toggle");
     if(!wrap) return;
+    const isAll = CURRENT_WORKER_FILTER === "all";
     wrap.querySelectorAll("button").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
+      if(isAll){
+        const isTable = btn.dataset.view === "table";
+        btn.disabled = !isTable;
+        btn.classList.toggle("active", isTable);
+      }else{
+        btn.disabled = false;
+        btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
+      }
     });
   }
   function applyMobileView(){
@@ -2491,14 +2499,14 @@
       document.body.classList.remove("mobile-cards");
       return;
     }
-    const forceCards = CURRENT_WORKER_FILTER === "all";
-    if(forceCards && MOBILE_VIEW !== "cards"){
-      MOBILE_VIEW = "cards";
+    const forceTable = CURRENT_WORKER_FILTER === "all";
+    if(forceTable && MOBILE_VIEW !== "table"){
+      MOBILE_VIEW = "table";
       try{
         localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
       }catch(_e){}
     }
-    const useCards = MOBILE_VIEW !== "table";
+    const useCards = !forceTable && MOBILE_VIEW !== "table";
     document.body.classList.toggle("mobile-cards", useCards);
     updateMobileViewButtons();
   }
@@ -4200,7 +4208,8 @@
     if(body){
       if(mobile){
         body.classList.add("mobile-export");
-        body.classList.add("mobile-cards");
+        const useCards = CURRENT_WORKER_FILTER !== "all" && MOBILE_VIEW !== "table";
+        if(useCards) body.classList.add("mobile-cards");
       }
       body.classList.remove("modal-open");
       body.classList.remove("worker-filtered");
