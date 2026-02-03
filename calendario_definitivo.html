@@ -31,6 +31,8 @@
       --shadow-1:0 10px 30px rgba(15,23,42,0.08);
       --shadow-2:0 12px 40px rgba(15,23,42,0.12);
       --shadow-inset:inset 0 1px 0 rgba(255,255,255,0.8);
+      --sidebar-w:min(560px, 94vw);
+      --sidebar-h:min(72vh, 520px);
     }
 
     *{ box-sizing:border-box; }
@@ -103,15 +105,106 @@
       transform:translateY(-1px);
     }
 
+    .topbar{
+      position:sticky;
+      top:12px;
+      z-index:200;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:8px 0 12px;
+      padding:8px 10px;
+      border-radius:16px;
+      background:rgba(255,255,255,0.9);
+      border:1px solid rgba(15,23,42,0.08);
+      box-shadow:var(--shadow-1);
+      backdrop-filter:blur(6px);
+    }
+    .topbar-group{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .topbar .secondary{
+      width:auto;
+      padding:8px 12px;
+      font-size:12px;
+    }
+    .topbar input,
+    .topbar select{
+      width:auto;
+      min-width:160px;
+      padding:8px 10px;
+      font-size:12px;
+    }
+    .topbar-field{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .topbar-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:#344054;
+      font-weight:600;
+    }
+    .save-status{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.2px;
+      background:#eef2f7;
+      color:#475467;
+      border:1px solid rgba(15,23,42,0.08);
+      white-space:nowrap;
+    }
+    .save-status.dirty{
+      background:rgba(245,158,11,0.15);
+      color:#92400e;
+      border-color:rgba(245,158,11,0.3);
+    }
+    .save-status.clean{
+      background:rgba(16,185,129,0.12);
+      color:#065f46;
+      border-color:rgba(16,185,129,0.28);
+    }
+    .toast{
+      position:fixed;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%) translateY(-10px);
+      background:#0f172a;
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      box-shadow:0 14px 36px rgba(15,23,42,0.22);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      z-index:1200;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
     .sidebar{
       position:fixed;
       top:0;
       right:0;
       bottom:0;
-      width:min(560px, 94vw);
-      background:linear-gradient(180deg, #f7f9fc 0%, #ffffff 35%, #f7f8fb 100%);
+      width:var(--sidebar-w);
+      background:linear-gradient(180deg, #f8fafc 0%, #ffffff 40%, #f6f7fb 100%);
       border-left:1px solid rgba(15,23,42,0.12);
-      box-shadow:-18px 0 40px rgba(15,23,42,0.14);
+      box-shadow:-14px 0 34px rgba(15,23,42,0.12);
       transform:translateX(100%);
       transition:transform .25s ease;
       z-index:999;
@@ -132,7 +225,7 @@
       height:100%;
       overflow:auto;
       background:transparent;
-      padding:18px 18px 28px;
+      padding:16px 16px 26px;
       position:relative;
     }
     .modal-head{
@@ -144,12 +237,12 @@
       position:sticky;
       top:0;
       z-index:2;
-      background:linear-gradient(180deg, rgba(247,249,252,0.98) 0%, rgba(247,249,252,0.65) 70%, rgba(247,249,252,0) 100%);
+      background:linear-gradient(180deg, rgba(248,250,252,0.98) 0%, rgba(248,250,252,0.7) 70%, rgba(248,250,252,0) 100%);
       backdrop-filter:blur(4px);
     }
     .modal-title{
       font-family:"Fraunces","Times New Roman",serif;
-      font-size:18px;
+      font-size:17px;
       font-weight:700;
       color:#1f2937;
     }
@@ -165,8 +258,8 @@
     }
     .modal-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
+      grid-template-columns:1fr;
+      gap:12px;
     }
     @media (max-width: 860px){
       .modal-grid{ grid-template-columns:1fr; }
@@ -211,44 +304,62 @@
       width:100%;
     }
     .panel{
-      border:1px solid rgba(15,23,42,0.08);
-      border-radius:16px;
-      padding:14px;
-      background:rgba(255,255,255,0.9);
-      box-shadow:0 8px 20px rgba(15,23,42,0.06);
+      border:none;
+      border-radius:14px;
+      padding:0;
+      background:transparent;
+      box-shadow:none;
     }
     .panel-title{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:1.6px;
-      color:var(--muted);
+      font-size:12px;
+      text-transform:none;
+      letter-spacing:0;
+      color:#0f172a;
       font-weight:700;
-      margin-bottom:8px;
+      margin:0;
     }
     .panel.is-collapsible > summary{
       list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,0.08);
+      box-shadow:var(--shadow-inset);
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .panel.is-collapsible > summary:hover{
+      border-color:rgba(15,23,42,0.18);
+      box-shadow:0 8px 18px rgba(15,23,42,0.08);
     }
     .panel.is-collapsible > summary::-webkit-details-marker{
       display:none;
     }
     .panel.is-collapsible .panel-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
       cursor:pointer;
-      margin-bottom:0;
     }
     .panel.is-collapsible .panel-title::after{
-      content:"+";
-      font-size:12px;
-      color:var(--muted);
+      content:"";
     }
-    .panel.is-collapsible[open] .panel-title::after{
-      content:"-";
+    .panel.is-collapsible > summary::after{
+      content:"▾";
+      font-size:12px;
+      color:#64748b;
+      transition:transform .2s ease;
+    }
+    .panel.is-collapsible[open] > summary::after{
+      transform:rotate(180deg);
     }
     .panel-body{
-      margin-top:10px;
+      margin-top:8px;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.92);
+      border:1px solid rgba(15,23,42,0.06);
+      box-shadow:0 10px 22px rgba(15,23,42,0.06);
     }
     .panel-workers{
       grid-column:1 / -1;
@@ -278,19 +389,20 @@
       flex:1 1 160px;
     }
     details.deductions{
-      border:1px dashed rgba(15,23,42,0.12);
+      border:1px solid rgba(15,23,42,0.08);
       border-radius:12px;
       padding:8px 10px;
-      background:rgba(248,250,252,0.7);
+      background:rgba(248,250,252,0.9);
+      box-shadow:var(--shadow-inset);
     }
     details.deductions summary{
       list-style:none;
       cursor:pointer;
-      font-size:11px;
+      font-size:12px;
       font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:0.6px;
-      color:#64748b;
+      text-transform:none;
+      letter-spacing:0;
+      color:#475569;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -300,12 +412,13 @@
       display:none;
     }
     details.deductions summary::after{
-      content:"+";
+      content:"▾";
       font-size:12px;
       color:#94a3b8;
+      transition:transform .2s ease;
     }
     details.deductions[open] summary::after{
-      content:"-";
+      transform:rotate(180deg);
     }
     details.deductions .config-grid{
       margin-top:8px;
@@ -313,27 +426,29 @@
       gap:10px;
     }
     .worker-pay-panel{
-      border:1px solid rgba(15,23,42,0.12);
+      border:1px solid rgba(15,23,42,0.08);
       border-radius:12px;
       padding:10px;
-      background:rgba(255,255,255,0.92);
+      background:rgba(255,255,255,0.95);
       display:grid;
       gap:10px;
+      box-shadow:var(--shadow-inset);
     }
     details.pay-block{
-      border:1px dashed rgba(15,23,42,0.12);
+      border:1px solid rgba(15,23,42,0.08);
       border-radius:12px;
       padding:8px 10px;
-      background:rgba(248,250,252,0.7);
+      background:rgba(248,250,252,0.9);
+      box-shadow:var(--shadow-inset);
     }
     details.pay-block summary{
       list-style:none;
       cursor:pointer;
-      font-size:11px;
+      font-size:12px;
       font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:0.6px;
-      color:#64748b;
+      text-transform:none;
+      letter-spacing:0;
+      color:#475569;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -343,25 +458,32 @@
       display:none;
     }
     details.pay-block summary::after{
-      content:"+";
+      content:"▾";
       font-size:12px;
       color:#94a3b8;
+      transition:transform .2s ease;
     }
     details.pay-block[open] summary::after{
-      content:"-";
+      transform:rotate(180deg);
     }
     details.pay-block .config-grid{
       margin-top:8px;
       gap:10px;
     }
     .panel-subtitle{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:1.4px;
-      color:var(--muted);
+      font-size:12px;
+      text-transform:none;
+      letter-spacing:0;
+      color:#475569;
       font-weight:700;
     }
     .modal-open{ overflow:hidden; }
+    body.config-open .page{
+      padding-right:calc(24px + var(--sidebar-w));
+    }
+    body.config-open .header-config{
+      right:calc(22px + var(--sidebar-w));
+    }
 
     .field label{
       display:block;
@@ -374,6 +496,51 @@
     @media (max-width: 640px){
       h1{ font-size:26px; }
       .page{ padding:20px 16px 28px; }
+    }
+    @media (max-width: 640px){
+      .topbar{
+        position:static;
+        padding:10px;
+      }
+      .topbar input,
+      .topbar select{
+        min-width:140px;
+      }
+      button, select, input{
+        min-height:40px;
+      }
+    }
+    @media (max-width: 1100px){
+      body.config-open .page{
+        padding-right:16px;
+        padding-bottom:calc(24px + var(--sidebar-h));
+      }
+      body.config-open .header-config{
+        right:16px;
+      }
+      .sidebar{
+        top:auto;
+        bottom:0;
+        left:0;
+        right:0;
+        height:var(--sidebar-h);
+        width:100%;
+        border-left:none;
+        border-top:1px solid rgba(15,23,42,0.12);
+        border-radius:18px 18px 0 0;
+        box-shadow:0 -14px 34px rgba(15,23,42,0.12);
+        transform:translateY(100%);
+      }
+      .sidebar.open{
+        transform:translateY(0);
+      }
+      .sidebar::before{
+        inset:auto -10% -20% -10%;
+        height:45%;
+      }
+      .modal-card{
+        padding:14px 14px 22px;
+      }
     }
     select, input, button{
       width:100%;
@@ -413,6 +580,26 @@
     button.secondary:hover{
       box-shadow:0 6px 14px rgba(15,23,42,0.12);
     }
+    .sidebar select,
+    .sidebar input,
+    .sidebar textarea{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:10px;
+    }
+    .sidebar button{
+      font-size:12px;
+      padding:8px 10px;
+    }
+    .sidebar .row.actions{
+      gap:6px;
+    }
+    .sidebar .row.actions button{
+      flex:1 1 120px;
+    }
+    .sidebar .config-grid{
+      gap:8px 10px;
+    }
 
     .row{ display:flex; gap:8px; flex-wrap:wrap; }
     .row > *{ flex:1 1 140px; }
@@ -444,12 +631,11 @@
       flex-wrap:wrap;
       align-items:center;
       gap:12px;
-      background:var(--surface);
-      border:1px solid var(--border);
+      background:#f8fafc;
+      border:1px solid rgba(15,23,42,0.08);
       border-radius:14px;
       padding:10px 12px;
-      box-shadow:var(--shadow-1);
-      backdrop-filter:blur(6px);
+      box-shadow:none;
       margin-bottom:12px;
     }
     .vac-controls .vac-worker{
@@ -581,78 +767,149 @@
     .annual-summary .kpi-panel + .kpi-panel{
       margin-top:12px;
     }
+    .annual-summary-toggle{
+      border:1px solid rgba(15,23,42,0.08);
+      border-radius:18px;
+      background:rgba(255,255,255,0.9);
+      box-shadow:var(--shadow-1);
+      padding:6px;
+    }
+    .annual-summary-toggle > summary{
+      list-style:none;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+      color:#0f172a;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,0.08);
+      box-shadow:var(--shadow-inset);
+    }
+    .annual-summary-toggle > summary::-webkit-details-marker{
+      display:none;
+    }
+    .annual-summary-toggle > summary::after{
+      content:"▾";
+      font-size:12px;
+      color:#64748b;
+      transition:transform .2s ease;
+    }
+    .annual-summary-toggle[open] > summary::after{
+      transform:rotate(180deg);
+    }
+    .annual-summary-toggle #annual-summary-panel{
+      padding:8px 6px 6px;
+    }
+    .annual-summary-toggle[open] .kpi-panel.kpi-annual{
+      box-shadow:none;
+      border:none;
+      background:transparent;
+      padding:0 2px 4px;
+    }
 
     .kpi-panel{
       background:#fbfcfe;
       padding:10px 12px 12px;
     }
     .kpi-panel.kpi-annual{
-      border:1px solid var(--border);
+      border:1px solid rgba(15,23,42,0.08);
       border-radius:18px;
-      background:var(--surface);
+      background:rgba(255,255,255,0.92);
       box-shadow:var(--shadow-1);
       backdrop-filter:blur(6px);
-      border-top:none;
-      padding:12px 14px;
+      padding:10px 12px;
     }
     .kpi-title{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1.2px;
-      color:var(--muted);
+      font-size:12px;
       font-weight:700;
-      margin-bottom:8px;
+      color:#0f172a;
+      margin-bottom:6px;
+      padding-bottom:6px;
+      border-bottom:1px solid rgba(15,23,42,0.08);
     }
     .kpi-list{
-      display:flex;
-      flex-direction:column;
+      display:grid;
       gap:6px;
     }
     .kpi-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
+      display:grid;
+      grid-template-columns:minmax(110px, 1fr) auto;
+      gap:8px;
       align-items:center;
-    }
-    .kpi-name{
-      font-size:12px;
-      font-weight:600;
-      color:#303644;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      flex:1 1 120px;
-      min-width:120px;
-    }
-    .kpi-chip{
-      min-width:54px;
       padding:6px 8px;
       border-radius:10px;
       background:#fff;
-      border:1px solid #e5eaf3;
+      border:1px solid rgba(15,23,42,0.06);
+      box-shadow:var(--shadow-inset);
+      font-variant-numeric:tabular-nums;
+    }
+    .kpi-name{
+      font-size:11px;
+      font-weight:700;
+      color:#1f2937;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .kpi-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .kpi-chip{
+      min-width:48px;
+      padding:4px 6px;
+      border-radius:9px;
+      background:#f8fafc;
+      border:1px solid rgba(148,163,184,0.25);
       box-shadow:var(--shadow-inset);
       text-align:center;
       flex:0 0 auto;
     }
+    .kpi-chip.pay-gross{
+      background:rgba(16,185,129,0.08);
+      border-color:rgba(16,185,129,0.25);
+    }
+    .kpi-chip.pay-net{
+      background:rgba(59,130,246,0.08);
+      border-color:rgba(59,130,246,0.25);
+    }
     .kpi-label{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      color:var(--muted);
+      font-size:8px;
+      font-weight:700;
+      color:#64748b;
       display:block;
       line-height:1;
     }
     .kpi-value{
-      font-size:12px;
+      font-size:11px;
       font-weight:700;
       display:block;
-      margin-top:2px;
+      margin-top:1px;
+      color:#0f172a;
     }
     .kpi-legend{
-      margin-top:8px;
-      font-size:10px;
-      color:var(--muted);
-      letter-spacing:0.2px;
+      margin-top:6px;
+      padding-top:6px;
+      border-top:1px dashed rgba(15,23,42,0.12);
+      font-size:9px;
+      color:#64748b;
+    }
+    @media (max-width: 520px){
+      .kpi-row{
+        grid-template-columns:1fr;
+        align-items:flex-start;
+      }
+      .kpi-chips{
+        justify-content:flex-start;
+      }
     }
 
     .name-wrap{
@@ -735,11 +992,11 @@
       gap:4px;
     }
     .config-field label{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:0.8px;
-      color:var(--muted);
-      font-weight:700;
+      font-size:11px;
+      text-transform:none;
+      letter-spacing:0;
+      color:#667085;
+      font-weight:600;
     }
     .config-field input,
     .config-field textarea{
@@ -927,6 +1184,17 @@
     .wknd{
       box-shadow:inset 0 0 0 9999px rgba(245,237,226,0.3);
     }
+    @media (prefers-contrast: more){
+      .M,.T,.N,.V{
+        text-shadow:0 1px 0 rgba(255,255,255,0.45);
+      }
+      .holiday{
+        outline:3px solid rgba(245,158,11,0.9);
+      }
+      .cell.diff{
+        outline-width:3px;
+      }
+    }
 
     .month-mobile{
       display:none;
@@ -1072,6 +1340,12 @@
 
     /* Export móvil */
     body.mobile-export .header-config{
+      display:none !important;
+    }
+    body.mobile-export .topbar{
+      display:none;
+    }
+    body.mobile-export #top-save-netlify{
       display:none !important;
     }
     body.mobile-export .worker-filter{
@@ -1266,6 +1540,25 @@
       <button id="open-config" class="open-config-btn" type="button">Configurar</button>
     </div>
 
+    <div class="topbar">
+      <div class="topbar-group">
+        <button id="go-today" class="secondary" type="button">Mes actual</button>
+        <div class="topbar-field">
+          <input id="worker-search" type="text" placeholder="Buscar trabajador…" list="worker-list" />
+          <datalist id="worker-list"></datalist>
+        </div>
+        <label class="topbar-toggle">
+          <input id="focus-mode" type="checkbox" />
+          Foco
+        </label>
+        <select id="worker-focus"></select>
+      </div>
+      <div class="topbar-group">
+        <button id="top-save-netlify" class="secondary" type="button">Guardar</button>
+        <span id="save-status" class="save-status">Guardado</span>
+      </div>
+    </div>
+
     <div id="config-modal" class="sidebar" aria-hidden="true">
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="config-title">
         <div class="modal-head">
@@ -1317,32 +1610,6 @@
                   <label for="holiday-list">Festivos (YYYY-MM-DD, uno por línea)</label>
                   <textarea id="holiday-list" placeholder="2026-01-01&#10;2026-01-06"></textarea>
                 </div>
-              </div>
-              <div class="config-grid">
-                <div class="config-field config-span-2">
-                  <div class="panel-subtitle">Nube (Supabase)</div>
-                </div>
-                <div class="config-field config-span-2">
-                  <label for="supabase-url">URL</label>
-                  <input id="supabase-url" type="text" placeholder="https://xxxx.supabase.co" />
-                </div>
-                <div class="config-field config-span-2">
-                  <label for="supabase-key">Anon Key</label>
-                  <input id="supabase-key" type="text" placeholder="eyJhbGciOi..." />
-                </div>
-                <div class="config-field">
-                  <label for="supabase-table">Tabla</label>
-                  <input id="supabase-table" type="text" value="tvac_calendar" />
-                </div>
-                <div class="config-field">
-                  <label for="supabase-id">ID</label>
-                  <input id="supabase-id" type="text" value="shared" />
-                </div>
-              </div>
-              <div class="row cloud-actions">
-                <button class="secondary" id="cloud-load" type="button">Cargar nube</button>
-                <button class="secondary" id="cloud-save" type="button">Guardar en nube</button>
-                <span id="cloud-status" class="cloud-status"></span>
               </div>
               <div class="config-grid">
                 <div class="config-field config-span-2">
@@ -1555,11 +1822,16 @@
     <div class="layout">
       <div id="calendar"></div>
       <aside class="annual-summary">
-        <div id="annual-summary-panel"></div>
+        <details id="annual-summary-toggle" class="annual-summary-toggle" open>
+          <summary>Resumen anual</summary>
+          <div id="annual-summary-panel"></div>
+        </details>
       </aside>
     </div>
 
   </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
 
 <script id="tvac-app">
   // ====== Opciones de patrón (para 1 persona) + offsets para 5 ======
@@ -1625,9 +1897,14 @@
   let GLOBAL_REDO = [];
   const GLOBAL_HISTORY_LIMIT = 300;
   let CURRENT_WORKER_FILTER = "all";
-  let CLOUD_AUTO_LOADED = false;
+  let CURRENT_WORKERS = [];
   let NETLIFY_DB_AUTO_LOADED = false;
   let NETLIFY_DB_LOADED = false;
+  let IS_DIRTY = false;
+  let SUPPRESS_DIRTY = false;
+  let FOCUS_MODE = false;
+  const FOCUS_KEY = "tvacFocusMode";
+  const ANNUAL_TOGGLE_KEY = "tvacAnnualSummaryOpen";
   let CURRENT_SCHEDULE = {};
   let CURRENT_COVER = {};
 
@@ -1978,6 +2255,7 @@
     const vacMode = document.getElementById("vac-mode");
     if(vacMode) vacMode.checked = false;
     saveConfig();
+    setDirty(true);
     render();
   }
 
@@ -2085,13 +2363,8 @@
     });
   }
   function applyWorkerFilter(){
-    if(!document.body.classList.contains("mobile-export")){
-      document.body.classList.remove("worker-filtered");
-      document.querySelectorAll("#calendar tr[data-worker], #calendar .worker-card[data-worker]")
-        .forEach((el) => el.classList.remove("worker-hidden"));
-      return;
-    }
-    const filter = CURRENT_WORKER_FILTER;
+    const isMobile = document.body.classList.contains("mobile-export");
+    const filter = (!isMobile && !FOCUS_MODE) ? "all" : CURRENT_WORKER_FILTER;
     const rows = document.querySelectorAll("#calendar tr[data-worker]");
     const cards = document.querySelectorAll("#calendar .worker-card[data-worker]");
     const hide = (el) => el.classList.add("worker-hidden");
@@ -2117,6 +2390,34 @@
     });
     applyWorkerFilter();
   }
+  function syncFocusControls(workers){
+    const select = document.getElementById("worker-focus");
+    const list = document.getElementById("worker-list");
+    if(select){
+      const current = select.value || "all";
+      select.innerHTML = "";
+      const allOpt = document.createElement("option");
+      allOpt.value = "all";
+      allOpt.textContent = "Todos";
+      select.appendChild(allOpt);
+      workers.forEach((name, idx) => {
+        const opt = document.createElement("option");
+        opt.value = String(idx);
+        opt.textContent = name || `Trabajador ${idx+1}`;
+        select.appendChild(opt);
+      });
+      select.value = String(CURRENT_WORKER_FILTER || current);
+      select.disabled = !FOCUS_MODE;
+    }
+    if(list){
+      list.innerHTML = "";
+      workers.forEach((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        list.appendChild(opt);
+      });
+    }
+  }
   function loadWorkerFilter(){
     try{
       const stored = localStorage.getItem(FILTER_KEY);
@@ -2124,6 +2425,32 @@
         CURRENT_WORKER_FILTER = stored;
       }
     }catch(_e){}
+  }
+  function loadFocusMode(){
+    try{
+      FOCUS_MODE = localStorage.getItem(FOCUS_KEY) === "1";
+    }catch(_e){}
+    const toggle = document.getElementById("focus-mode");
+    if(toggle) toggle.checked = FOCUS_MODE;
+    const select = document.getElementById("worker-focus");
+    if(select) select.disabled = !FOCUS_MODE;
+  }
+  function renderLegend(usage, showDiff){
+    const legend = document.querySelector(".legend");
+    if(!legend) return;
+    const items = [];
+    const add = (cls, label) => {
+      items.push(`<span class="swatch"><span class="box ${cls}"></span> ${label}</span>`);
+    };
+    if(usage.M) add("m", "M · Mañana (06-14)");
+    if(usage.T) add("t", "T · Tarde (14-22)");
+    if(usage.N) add("n", "N · Noche (22-06)");
+    if(usage.O) add("o", "O · Libre");
+    if(usage.V) add("v", "V · Vacaciones");
+    if(usage.H) add("h", "H · Festivo");
+    if(showDiff && usage.Diff) add("diff", "Δ · Cambio");
+    legend.innerHTML = items.join("");
+    legend.style.display = items.length ? "flex" : "none";
   }
   function updateSalaryPanel(){
     const panel = document.getElementById("worker-pay-panel");
@@ -2570,10 +2897,6 @@
       w4: document.getElementById("w4")?.value || "",
       w5: document.getElementById("w5")?.value || "",
       holidayList: document.getElementById("holiday-list")?.value || "",
-      supabaseUrl: document.getElementById("supabase-url")?.value || "",
-      supabaseKey: document.getElementById("supabase-key")?.value || "",
-      supabaseTable: document.getElementById("supabase-table")?.value || "",
-      supabaseId: document.getElementById("supabase-id")?.value || "",
       netlifyId: document.getElementById("netlify-id")?.value || "",
       payByWorker: PAY_CONFIGS.map((cfg) => ({ ...cfg })),
       salaryWorker: document.getElementById("salary-worker")?.value || "0",
@@ -2594,6 +2917,7 @@
 
   function applyConfig(cfg){
     if(!cfg || typeof cfg !== "object") return;
+    SUPPRESS_DIRTY = true;
     if(cfg.year && document.getElementById("year")) document.getElementById("year").value = cfg.year;
     if(cfg.anchor && document.getElementById("anchor")) document.getElementById("anchor").value = cfg.anchor;
     if(cfg.pattern){
@@ -2611,10 +2935,6 @@
     setVal("w4", cfg.w4);
     setVal("w5", cfg.w5);
     setVal("holiday-list", cfg.holidayList);
-    setVal("supabase-url", cfg.supabaseUrl);
-    setVal("supabase-key", cfg.supabaseKey);
-    setVal("supabase-table", cfg.supabaseTable);
-    setVal("supabase-id", cfg.supabaseId);
     setVal("netlify-id", cfg.netlifyId);
 
     const setChecked = (id, val) => {
@@ -2682,6 +3002,8 @@
     }
     updateCoverDotVisibility();
     initGlobalHistory();
+    SUPPRESS_DIRTY = false;
+    setDirty(false);
   }
 
   function saveConfig(){
@@ -2700,107 +3022,35 @@
     }catch(_e){}
   }
 
-  function getSupabaseSettings(){
-    const url = (document.getElementById("supabase-url")?.value || "").trim();
-    const key = (document.getElementById("supabase-key")?.value || "").trim();
-    const table = (document.getElementById("supabase-table")?.value || "tvac_calendar").trim();
-    const id = (document.getElementById("supabase-id")?.value || "shared").trim();
-    return { url, key, table, id };
-  }
   function getNetlifySettings(){
     const id = (document.getElementById("netlify-id")?.value || "shared").trim();
     return { id };
   }
-  function setCloudStatus(msg, isError = false){
-    const el = document.getElementById("cloud-status");
+  function updateSaveStatus(){
+    const el = document.getElementById("save-status");
     if(!el) return;
-    el.textContent = msg || "";
-    el.style.color = isError ? "#b91c1c" : "";
+    el.textContent = IS_DIRTY ? "Cambios sin guardar" : "Guardado";
+    el.classList.toggle("dirty", IS_DIRTY);
+    el.classList.toggle("clean", !IS_DIRTY);
+  }
+  function setDirty(flag){
+    if(SUPPRESS_DIRTY) return;
+    IS_DIRTY = !!flag;
+    updateSaveStatus();
+  }
+  function showToast(message){
+    const toast = document.getElementById("toast");
+    if(!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => toast.classList.remove("show"), 1800);
   }
   function setNetlifyStatus(msg, isError = false){
     const el = document.getElementById("netlify-status");
     if(!el) return;
     el.textContent = msg || "";
     el.style.color = isError ? "#b91c1c" : "";
-  }
-  async function supabaseRequest(path, options, url, key){
-    const headers = {
-      apikey: key,
-      Authorization: `Bearer ${key}`,
-      ...((options && options.headers) || {}),
-    };
-    const res = await fetch(`${url}/rest/v1/${path}`, { ...options, headers });
-    return res;
-  }
-  async function saveToCloud(){
-    const { url, key, table, id } = getSupabaseSettings();
-    if(!url || !key){
-      setCloudStatus("Falta URL o Anon Key.", true);
-      return;
-    }
-    const payload = {
-      id,
-      data: collectConfig(),
-      updated_at: new Date().toISOString(),
-    };
-    setCloudStatus("Guardando…");
-    const res = await supabaseRequest(
-      `${table}?on_conflict=id`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Prefer: "resolution=merge-duplicates,return=representation",
-        },
-        body: JSON.stringify(payload),
-      },
-      url,
-      key
-    );
-    if(!res.ok){
-      const txt = await res.text();
-      setCloudStatus(`Error: ${txt}`, true);
-      return;
-    }
-    setCloudStatus("Guardado");
-    setTimeout(() => setCloudStatus(""), 2000);
-  }
-  async function loadFromCloud(){
-    const { url, key, table, id } = getSupabaseSettings();
-    if(!url || !key){
-      setCloudStatus("Falta URL o Anon Key.", true);
-      return;
-    }
-    setCloudStatus("Cargando…");
-    const res = await supabaseRequest(
-      `${table}?id=eq.${encodeURIComponent(id)}&select=data,updated_at&order=updated_at.desc&limit=1`,
-      { method: "GET" },
-      url,
-      key
-    );
-    if(!res.ok){
-      const txt = await res.text();
-      setCloudStatus(`Error: ${txt}`, true);
-      return;
-    }
-    const rows = await res.json();
-    if(!rows || !rows.length || !rows[0].data){
-      setCloudStatus("Sin datos en la nube.");
-      return;
-    }
-    applyConfig(rows[0].data);
-    saveConfig();
-    render();
-    setCloudStatus("Cargado");
-    setTimeout(() => setCloudStatus(""), 2000);
-  }
-  function autoLoadCloudOnce(){
-    if(CLOUD_AUTO_LOADED || NETLIFY_DB_LOADED) return;
-    if(!document.body.classList.contains("mobile-export")) return;
-    const { url, key } = getSupabaseSettings();
-    if(!url || !key) return;
-    CLOUD_AUTO_LOADED = true;
-    loadFromCloud();
   }
   async function netlifyRequest(path, options = {}){
     return fetch(`/.netlify/functions/${path}`, options);
@@ -2831,6 +3081,7 @@
         setNetlifyStatus("Guardado");
         setTimeout(() => setNetlifyStatus(""), 2000);
       }
+      setDirty(false);
       return true;
     }catch(err){
       if(!silent) setNetlifyStatus("No se pudo conectar a Netlify DB.", true);
@@ -2864,6 +3115,7 @@
       saveConfig();
       render();
       NETLIFY_DB_LOADED = true;
+      setDirty(false);
       if(!silent){
         setNetlifyStatus("Cargado");
         setTimeout(() => setNetlifyStatus(""), 2000);
@@ -3165,7 +3417,12 @@
       const nameEl = document.createElement("div");
       nameEl.className = "kpi-name";
       nameEl.textContent = name;
+      nameEl.title = name;
       row.appendChild(nameEl);
+
+      const chipsWrap = document.createElement("div");
+      chipsWrap.className = "kpi-chips";
+      row.appendChild(chipsWrap);
 
       const workWithVac = formatWorkWithVacations(totals[idx].work, totals[idx].vacations);
       const workTitle = totals[idx].vacations
@@ -3199,7 +3456,7 @@
           chipEl.title = chip.title;
         }
         chipEl.innerHTML = `<span class="kpi-label">${chip.label}</span><span class="kpi-value">${chip.value}</span>`;
-        row.appendChild(chipEl);
+        chipsWrap.appendChild(chipEl);
       });
 
       list.appendChild(row);
@@ -3218,7 +3475,7 @@
     return summary;
   }
 
-  function buildMonthQuadrant(year, monthIdx, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, schedule, cover){
+  function buildMonthQuadrant(year, monthIdx, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, schedule, cover, legendUsage){
     const first = new Date(year, monthIdx, 1);
     const last = new Date(year, monthIdx+1, 0);
     const daysInMonth = last.getDate();
@@ -3291,6 +3548,11 @@
         const info = shiftInfo(s);
         const holiday = holidaySet.has(iso);
         const appliedVac = VACATIONS_ENABLED && Boolean(VACATIONS_APPLIED[iso]?.[wIdx]);
+        if(legendUsage){
+          if(s) legendUsage[s] = true;
+          if(holiday) legendUsage.H = true;
+          if(diff) legendUsage.Diff = true;
+        }
         if(appliedVac){
           rowTotals.vacations += 1;
         }
@@ -3483,7 +3745,9 @@
       document.getElementById("w4").value.trim() || "D",
       document.getElementById("w5").value.trim() || "E",
     ];
+    CURRENT_WORKERS = workers.slice();
     loadWorkerFilter();
+    loadFocusMode();
     if(CURRENT_WORKER_FILTER !== "all"){
       const idx = Number(CURRENT_WORKER_FILTER);
       if(!Number.isFinite(idx) || idx < 0 || idx >= workers.length){
@@ -3494,6 +3758,7 @@
     syncManualWorkers(workers);
     syncSalaryWorkers(workers);
     renderWorkerFilterButtons(workers);
+    syncFocusControls(workers);
 
     const container = document.getElementById("calendar");
     container.innerHTML = "";
@@ -3506,6 +3771,7 @@
     updatePayVisibility(showMonthlyPay, showNetPay);
     updateFixedTotal(getPayConfigForWorker(SELECTED_PAY_WORKER));
     const holidaySet = parseHolidayList(document.getElementById("holiday-list").value);
+    const legendUsage = { M:false, T:false, N:false, O:false, V:false, H:false, Diff:false };
     if(!VACATIONS_DRAFT || typeof VACATIONS_DRAFT !== "object"){
       VACATIONS_DRAFT = cloneVacations(VACATIONS_APPLIED);
     }
@@ -3559,7 +3825,7 @@
       }
 
       for(let m=0; m<12; m++){
-        container.appendChild(buildMonthQuadrant(year, m, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, CURRENT_SCHEDULE, CURRENT_COVER));
+        container.appendChild(buildMonthQuadrant(year, m, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, CURRENT_SCHEDULE, CURRENT_COVER, legendUsage));
       }
       warnings.push(...equityWarnings(annualTotals));
 
@@ -3576,6 +3842,8 @@
       warn.innerHTML = warnings.map(x => `• ${x}`).join("<br>");
       container.prepend(warn);
     }
+
+    renderLegend(legendUsage, showDiff);
 
     annualContainer.appendChild(createSummaryKpis(workers, annualTotals, `Resumen anual ${year}`, "kpi-annual", { showPay: showMonthlyPay, showNet: showNetPay, showHolidays: true, showLegend: true }));
     applyWorkerFilter();
@@ -3606,12 +3874,18 @@
   const redoBtn = document.getElementById("redo-change");
   if(undoBtn){
     undoBtn.addEventListener("click", () => {
-      if(undoGlobalChange()) render();
+      if(undoGlobalChange()){
+        setDirty(true);
+        render();
+      }
     });
   }
   if(redoBtn){
     redoBtn.addEventListener("click", () => {
-      if(redoGlobalChange()) render();
+      if(redoGlobalChange()){
+        setDirty(true);
+        render();
+      }
     });
   }
   document.getElementById("pattern").addEventListener("change", render);
@@ -3621,10 +3895,13 @@
   const exportBtn = document.getElementById("export-config");
   const importBtn = document.getElementById("import-config");
   const importFile = document.getElementById("import-file");
-  const cloudLoadBtn = document.getElementById("cloud-load");
-  const cloudSaveBtn = document.getElementById("cloud-save");
   const netlifyLoadBtn = document.getElementById("netlify-load");
   const netlifySaveBtn = document.getElementById("netlify-save");
+  const goTodayBtn = document.getElementById("go-today");
+  const topSaveNetlify = document.getElementById("top-save-netlify");
+  const focusToggle = document.getElementById("focus-mode");
+  const focusSelect = document.getElementById("worker-focus");
+  const workerSearch = document.getElementById("worker-search");
   const coverDotToggle = document.getElementById("show-cover-dot");
   if(exportBtn){
     exportBtn.addEventListener("click", () => {
@@ -3660,16 +3937,6 @@
       reader.readAsText(file);
     });
   }
-  if(cloudLoadBtn){
-    cloudLoadBtn.addEventListener("click", () => {
-      loadFromCloud();
-    });
-  }
-  if(cloudSaveBtn){
-    cloudSaveBtn.addEventListener("click", () => {
-      saveToCloud();
-    });
-  }
   if(netlifyLoadBtn){
     netlifyLoadBtn.addEventListener("click", () => {
       loadFromNetlifyDb();
@@ -3678,6 +3945,83 @@
   if(netlifySaveBtn){
     netlifySaveBtn.addEventListener("click", () => {
       saveToNetlifyDb();
+    });
+  }
+  if(topSaveNetlify){
+    topSaveNetlify.addEventListener("click", async () => {
+      const ok = await saveToNetlifyDb();
+      if(ok){
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        showToast(`Guardado en Netlify DB · ${hh}:${mm}`);
+      }
+    });
+  }
+  if(goTodayBtn){
+    goTodayBtn.addEventListener("click", () => {
+      const year = Number(document.getElementById("year")?.value);
+      const now = new Date();
+      if(!Number.isFinite(year) || year !== now.getFullYear()){
+        showToast("El año seleccionado no es el actual.");
+        return;
+      }
+      const target = document.querySelector(`.month-wrap[data-year="${year}"][data-month="${now.getMonth()}"]`);
+      if(target){
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }
+  if(focusToggle){
+    focusToggle.addEventListener("change", () => {
+      FOCUS_MODE = focusToggle.checked;
+      try{
+        localStorage.setItem(FOCUS_KEY, FOCUS_MODE ? "1" : "0");
+      }catch(_e){}
+      if(focusSelect) focusSelect.disabled = !FOCUS_MODE;
+      if(!FOCUS_MODE){
+        setWorkerFilter("all");
+      }else if(focusSelect && focusSelect.value){
+        setWorkerFilter(focusSelect.value);
+      }
+      applyWorkerFilter();
+    });
+  }
+  if(focusSelect){
+    focusSelect.addEventListener("change", () => {
+      const value = focusSelect.value;
+      if(value && value !== "all"){
+        if(focusToggle && !focusToggle.checked){
+          focusToggle.checked = true;
+          FOCUS_MODE = true;
+          try{ localStorage.setItem(FOCUS_KEY, "1"); }catch(_e){}
+        }
+        setWorkerFilter(value);
+      }else{
+        setWorkerFilter("all");
+      }
+      applyWorkerFilter();
+    });
+  }
+  if(workerSearch){
+    workerSearch.addEventListener("input", () => {
+      const query = workerSearch.value.trim().toLowerCase();
+      if(!query){
+        if(FOCUS_MODE) setWorkerFilter("all");
+        return;
+      }
+      const idx = CURRENT_WORKERS.findIndex((w) => String(w || "").toLowerCase().includes(query));
+      if(idx >= 0){
+        if(focusToggle && !focusToggle.checked){
+          focusToggle.checked = true;
+          FOCUS_MODE = true;
+          try{ localStorage.setItem(FOCUS_KEY, "1"); }catch(_e){}
+          if(focusSelect) focusSelect.disabled = false;
+        }
+        if(focusSelect) focusSelect.value = String(idx);
+        setWorkerFilter(String(idx));
+        applyWorkerFilter();
+      }
     });
   }
   const exportHtmlBtn = document.getElementById("export-html");
@@ -4037,11 +4381,13 @@
   const showNetToggle = document.getElementById("show-net-pay");
   if(showMonthlyToggle){
     showMonthlyToggle.addEventListener("change", () => {
+      setDirty(true);
       render();
     });
   }
   if(showNetToggle){
     showNetToggle.addEventListener("change", () => {
+      setDirty(true);
       render();
     });
   }
@@ -4049,12 +4395,16 @@
     const target = e.target;
     if(!(target instanceof HTMLInputElement)) return;
     if(target.id === "show-monthly-pay" || target.id === "show-net-pay" || target.id === "show-diff"){
+      setDirty(true);
       render();
     }
   });
   document.querySelectorAll(".config-grid input, .config-grid textarea").forEach((el) => {
     if(el.classList.contains("pay-input")) return;
-    el.addEventListener("input", render);
+    el.addEventListener("input", () => {
+      setDirty(true);
+      render();
+    });
   });
   document.querySelectorAll(".pay-input").forEach((el) => {
     el.addEventListener("input", () => {
@@ -4062,11 +4412,15 @@
       PAY_CONFIGS[SELECTED_PAY_WORKER] = readPayInputs();
       updateFixedTotal(getPayConfigForWorker(SELECTED_PAY_WORKER));
       saveConfig();
+      setDirty(true);
       render();
     });
   });
   document.querySelectorAll("#config-modal .row input, #config-modal .workers-grid input").forEach((el) => {
-    el.addEventListener("input", render);
+    el.addEventListener("input", () => {
+      setDirty(true);
+      render();
+    });
   });
   const vacMode = document.getElementById("vac-mode");
   const vacWorker = document.getElementById("vac-worker");
@@ -4084,11 +4438,13 @@
       updateVacationModeClass();
       updateManualModeClass();
       saveConfig();
+      setDirty(true);
     });
   }
   if(vacWorker){
     vacWorker.addEventListener("change", () => {
       saveConfig();
+      setDirty(true);
     });
   }
   if(manualMode){
@@ -4097,16 +4453,19 @@
       updateVacationModeClass();
       updateManualModeClass();
       saveConfig();
+      setDirty(true);
     });
   }
   if(manualWorker){
     manualWorker.addEventListener("change", () => {
       saveConfig();
+      setDirty(true);
     });
   }
   if(manualShift){
     manualShift.addEventListener("change", () => {
       saveConfig();
+      setDirty(true);
     });
   }
   if(salaryWorker){
@@ -4116,6 +4475,7 @@
       }
       updateSalaryPanel();
       saveConfig();
+      setDirty(true);
     });
   }
   if(payDefaults){
@@ -4126,6 +4486,7 @@
       writePayInputs(reset);
       updateFixedTotal(getPayConfigForWorker(SELECTED_PAY_WORKER));
       saveConfig();
+      setDirty(true);
       render();
     });
   }
@@ -4135,6 +4496,7 @@
       const base = readPayInputs();
       PAY_CONFIGS = Array.from({ length: WORKER_COUNT }, () => ({ ...base }));
       saveConfig();
+      setDirty(true);
       render();
     });
   }
@@ -4142,12 +4504,14 @@
     vacApply.addEventListener("click", () => {
       applyVacationsDraft();
       render();
+      setDirty(true);
     });
   }
   if(vacCancel){
     vacCancel.addEventListener("click", () => {
       resetVacationsDraft();
       render();
+      setDirty(true);
     });
   }
   const calendarEl = document.getElementById("calendar");
@@ -4171,6 +4535,7 @@
         }
         pushGlobalHistory();
         saveConfig();
+        setDirty(true);
         render();
         return;
       }
@@ -4179,7 +4544,10 @@
       const selected = Number(document.getElementById("vac-worker")?.value || "0");
       if(workerIdx !== selected) return;
       const changed = toggleVacation(dateStr, workerIdx);
-      if(changed) render();
+      if(changed){
+        setDirty(true);
+        render();
+      }
     });
   }
   document.addEventListener("keydown", (e) => {
@@ -4189,10 +4557,16 @@
     const key = e.key.toLowerCase();
     if(key === "z" && !e.shiftKey){
       e.preventDefault();
-      if(undoGlobalChange()) render();
+      if(undoGlobalChange()){
+        setDirty(true);
+        render();
+      }
     }else if(key === "y" || (key === "z" && e.shiftKey)){
       e.preventDefault();
-      if(redoGlobalChange()) render();
+      if(redoGlobalChange()){
+        setDirty(true);
+        render();
+      }
     }
   });
   const modal = document.getElementById("config-modal");
@@ -4201,10 +4575,12 @@
   const closeModal = () => {
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("config-open");
   };
   const openModal = () => {
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("config-open");
   };
   const toggleModal = () => {
     if(modal.classList.contains("open")) closeModal();
@@ -4219,6 +4595,18 @@
   if(modal){
     document.addEventListener("keydown", (e) => {
       if(e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+  }
+  const annualToggle = document.getElementById("annual-summary-toggle");
+  if(annualToggle){
+    try{
+      const stored = localStorage.getItem(ANNUAL_TOGGLE_KEY);
+      if(stored === "0") annualToggle.open = false;
+    }catch(_e){}
+    annualToggle.addEventListener("toggle", () => {
+      try{
+        localStorage.setItem(ANNUAL_TOGGLE_KEY, annualToggle.open ? "1" : "0");
+      }catch(_e){}
     });
   }
   const exportModal = document.getElementById("export-modal");
@@ -4258,7 +4646,8 @@
   applyConfigFromHash();
   applyEmbeddedConfig();
   render();
-  autoLoadNetlifyOnce().finally(() => autoLoadCloudOnce());
+  autoLoadNetlifyOnce();
+  updateSaveStatus();
 </script>
 </body>
 </html>
