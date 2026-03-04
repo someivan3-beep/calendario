@@ -17,4 +17,4 @@ if %errorlevel%==0 (
 )
 
 timeout /t 1 >nul
-start "" "http://localhost:8012/calendario_definitivo.html"
+start "" "http://localhost:8012/"
