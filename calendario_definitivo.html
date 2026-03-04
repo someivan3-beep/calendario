@@ -31,7 +31,7 @@
       --shadow-1:0 10px 30px rgba(15,23,42,0.08);
       --shadow-2:0 12px 40px rgba(15,23,42,0.12);
       --shadow-inset:inset 0 1px 0 rgba(255,255,255,0.8);
-      --sidebar-w:min(560px, 94vw);
+      --sidebar-w:min(340px, 94vw);
       --sidebar-h:min(72vh, 520px);
     }
 
@@ -521,10 +521,10 @@
     }
     .modal-open{ overflow:hidden; }
     body.config-open .page{
-      padding-right:calc(24px + var(--sidebar-w));
+      padding-right:24px;
     }
     body.config-open .header-config{
-      right:calc(22px + var(--sidebar-w));
+      right:22px;
     }
 
     .field label{
@@ -772,7 +772,6 @@
     .box.o{ background:var(--c-o); }
     .box.v{ background:var(--c-v); }
     .box.h{ background:linear-gradient(180deg, #fff4d6, #ffe0a8); border-color:#f59e0b; }
-    .box.diff{ background:transparent; border:2px dashed rgba(99,102,241,0.65); }
 
     .month-wrap{
       border:1px solid #e1e5ee;
@@ -1209,22 +1208,7 @@
       position:relative;
     }
     .cell.cover::after{
-      content:"";
-      position:absolute;
-      top:4px;
-      right:4px;
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:#111827;
-      box-shadow:0 0 0 2px rgba(255,255,255,0.8);
-    }
-    body.hide-cover-dot .cell.cover::after{
       display:none;
-    }
-    .cell.diff{
-      outline:2px dashed rgba(99,102,241,0.65);
-      outline-offset:-2px;
     }
 
     /* Fines de semana con una leve marca (sin tapar color de turno) */
@@ -1237,9 +1221,6 @@
       }
       .holiday{
         outline:3px solid rgba(245,158,11,0.9);
-      }
-      .cell.diff{
-        outline-width:3px;
       }
     }
 
@@ -1361,22 +1342,7 @@
       line-height:1.1;
     }
     .day-pill.cover::after{
-      content:"";
-      position:absolute;
-      top:4px;
-      right:4px;
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:#111827;
-      box-shadow:0 0 0 2px rgba(255,255,255,0.8);
-    }
-    body.hide-cover-dot .day-pill.cover::after{
       display:none;
-    }
-    .day-pill.diff{
-      outline:2px dashed rgba(99,102,241,0.65);
-      outline-offset:-2px;
     }
     @media screen and (max-width: 900px){
       .month-wrap .scroller{ display:block; }
@@ -1651,16 +1617,6 @@
                 <button class="secondary" id="open-exports">Exportaciones</button>
                 <input id="import-file" class="hidden-file" type="file" accept="application/json" />
               </div>
-              <div class="row">
-                <label class="config-toggle">
-                  <input id="show-cover-dot" type="checkbox" checked />
-                  Mostrar punto en días ajustados
-                </label>
-                <label class="config-toggle">
-                  <input id="show-diff" type="checkbox" />
-                  Comparar con calendario base
-                </label>
-              </div>
               <div class="config-grid">
                 <div class="config-field config-span-2">
                   <label for="holiday-list">Festivos (YYYY-MM-DD, uno por línea)</label>
@@ -1872,7 +1828,6 @@
       <span class="swatch"><span class="box o"></span> O · Libre</span>
       <span class="swatch"><span class="box v"></span> V · Vacaciones</span>
       <span class="swatch"><span class="box h"></span> H · Festivo</span>
-      <span class="swatch"><span class="box diff"></span> Δ · Cambio</span>
     </div>
 
     <div class="layout">
@@ -2513,7 +2468,7 @@
     document.body.classList.toggle("mobile-cards", useCards);
     updateMobileViewButtons();
   }
-  function renderLegend(usage, showDiff){
+  function renderLegend(usage){
     const legend = document.querySelector(".legend");
     if(!legend) return;
     const items = [];
@@ -2526,7 +2481,6 @@
     if(usage.O) add("o", "O · Libre");
     if(usage.V) add("v", "V · Vacaciones");
     if(usage.H) add("h", "H · Festivo");
-    if(showDiff && usage.Diff) add("diff", "Δ · Cambio");
     legend.innerHTML = items.join("");
     legend.style.display = items.length ? "flex" : "none";
   }
@@ -2980,8 +2934,6 @@
       salaryWorker: document.getElementById("salary-worker")?.value || "0",
       showMonthlyPay: document.getElementById("show-monthly-pay")?.checked || false,
       showNetPay: document.getElementById("show-net-pay")?.checked || false,
-      showCoverDot: document.getElementById("show-cover-dot")?.checked !== false,
-      showDiff: document.getElementById("show-diff")?.checked || false,
       vacMode: document.getElementById("vac-mode")?.checked || false,
       vacWorker: document.getElementById("vac-worker")?.value || "0",
       manualMode: document.getElementById("manual-mode")?.checked || false,
@@ -3021,8 +2973,6 @@
     };
     setChecked("show-monthly-pay", cfg.showMonthlyPay);
     setChecked("show-net-pay", cfg.showNetPay);
-    setChecked("show-cover-dot", cfg.showCoverDot);
-    setChecked("show-diff", cfg.showDiff);
     setChecked("vac-mode", cfg.vacMode);
     setChecked("manual-mode", cfg.manualMode);
     if(cfg.vacMode && cfg.manualMode){
@@ -3078,7 +3028,6 @@
     }else{
       MANUAL_OVERRIDES = {};
     }
-    updateCoverDotVisibility();
     initGlobalHistory();
     SUPPRESS_DIRTY = false;
     setDirty(false);
@@ -3218,10 +3167,6 @@
   function decodeConfig(encoded){
     const json = decodeURIComponent(atob(encoded));
     return JSON.parse(json);
-  }
-  function updateCoverDotVisibility(){
-    const show = document.getElementById("show-cover-dot")?.checked !== false;
-    document.body.classList.toggle("hide-cover-dot", !show);
   }
   function updatePayVisibility(showMonthlyPay, showNetPay){
     document.body.classList.toggle("hide-gross", !showMonthlyPay);
@@ -3553,7 +3498,7 @@
     return summary;
   }
 
-  function buildMonthQuadrant(year, monthIdx, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, schedule, cover, legendUsage){
+  function buildMonthQuadrant(year, monthIdx, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, holidaySet, schedule, cover, legendUsage){
     const first = new Date(year, monthIdx, 1);
     const last = new Date(year, monthIdx+1, 0);
     const daysInMonth = last.getDate();
@@ -3616,20 +3561,17 @@
       for(let d=1; d<=daysInMonth; d++){
         const date = new Date(year, monthIdx, d);
         const iso = `${year}-${fmt2(monthIdx+1)}-${fmt2(d)}`;
-        const baseShift = stateFor(wIdx, date, opt, anchor);
         const rawShift = resolveShift(date, iso, wIdx, opt, anchor, schedule);
         const manualShift = getManualOverride(MANUAL_OVERRIDES, iso, wIdx);
         const displayVacation = getVacationDisplay(iso, wIdx);
         const s = displayVacation ? "V" : (rawShift || "O");
         const hasManual = !displayVacation && manualShift;
-        const diff = showDiff && s !== baseShift;
         const info = shiftInfo(s);
         const holiday = holidaySet.has(iso);
         const appliedVac = VACATIONS_ENABLED && Boolean(VACATIONS_APPLIED[iso]?.[wIdx]);
         if(legendUsage){
           if(s) legendUsage[s] = true;
           if(holiday) legendUsage.H = true;
-          if(diff) legendUsage.Diff = true;
         }
         if(appliedVac){
           rowTotals.vacations += 1;
@@ -3638,7 +3580,6 @@
         const td = document.createElement("td");
         td.className = `cell ${s}`;
         if(hasManual) td.classList.add("manual");
-        if(diff) td.classList.add("diff");
         if(cover && cover[iso] && cover[iso].includes(wIdx)) td.classList.add("cover");
         td.dataset.date = iso;
         td.dataset.worker = String(wIdx);
@@ -3660,7 +3601,6 @@
           holiday,
           cover: cover && cover[iso] && cover[iso].includes(wIdx),
           manual: hasManual,
-          diff,
           title: full,
         };
 
@@ -3783,7 +3723,6 @@
           if(info.holiday) cell.classList.add("holiday");
           if(info.cover) cell.classList.add("cover");
           if(info.manual) cell.classList.add("manual");
-          if(info.diff) cell.classList.add("diff");
           cell.dataset.date = info.iso;
           cell.dataset.worker = String(wIdx);
           cell.dataset.shift = info.shift;
@@ -3844,11 +3783,10 @@
     annualContainer.innerHTML = "";
     const showMonthlyPay = document.getElementById("show-monthly-pay")?.checked || false;
     const showNetPay = document.getElementById("show-net-pay")?.checked || false;
-    const showDiff = document.getElementById("show-diff")?.checked || false;
     updatePayVisibility(showMonthlyPay, showNetPay);
     updateFixedTotal(getPayConfigForWorker(SELECTED_PAY_WORKER));
     const holidaySet = parseHolidayList(document.getElementById("holiday-list").value);
-    const legendUsage = { M:false, T:false, N:false, O:false, V:false, H:false, Diff:false };
+    const legendUsage = { M:false, T:false, N:false, O:false, V:false, H:false };
     if(!VACATIONS_DRAFT || typeof VACATIONS_DRAFT !== "object"){
       VACATIONS_DRAFT = cloneVacations(VACATIONS_APPLIED);
     }
@@ -3902,7 +3840,7 @@
       }
 
       for(let m=0; m<12; m++){
-        container.appendChild(buildMonthQuadrant(year, m, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, showDiff, holidaySet, CURRENT_SCHEDULE, CURRENT_COVER, legendUsage));
+        container.appendChild(buildMonthQuadrant(year, m, opt, workers, anchor, annualTotals, showMonthlyPay, showNetPay, holidaySet, CURRENT_SCHEDULE, CURRENT_COVER, legendUsage));
       }
       warnings.push(...equityWarnings(annualTotals));
 
@@ -3920,7 +3858,7 @@
       container.prepend(warn);
     }
 
-    renderLegend(legendUsage, showDiff);
+    renderLegend(legendUsage);
     applyMobileView();
 
     annualContainer.appendChild(createSummaryKpis(workers, annualTotals, `Resumen anual ${year}`, "kpi-annual", { showPay: showMonthlyPay, showNet: showNetPay, showHolidays: true, showLegend: true }));
@@ -3928,7 +3866,6 @@
     updateVacationModeClass();
     updateManualModeClass();
     updateVacationStatus();
-    updateCoverDotVisibility();
     if(document.body.classList.contains("mobile-export")){
       setTimeout(() => {
         if(window.__tvac_scrolled) return;
@@ -3978,7 +3915,6 @@
   const goTodayBtn = document.getElementById("go-today");
   const topSaveNetlify = document.getElementById("top-save-netlify");
   const viewToggle = document.getElementById("view-toggle");
-  const coverDotToggle = document.getElementById("show-cover-dot");
   if(exportBtn){
     exportBtn.addEventListener("click", () => {
       const cfg = collectConfig();
@@ -4410,12 +4346,6 @@
       });
     });
   }
-  if(coverDotToggle){
-    coverDotToggle.addEventListener("change", () => {
-      updateCoverDotVisibility();
-      saveConfig();
-    });
-  }
   const showMonthlyToggle = document.getElementById("show-monthly-pay");
   const showNetToggle = document.getElementById("show-net-pay");
   if(showMonthlyToggle){
@@ -4433,7 +4363,7 @@
   document.addEventListener("change", (e) => {
     const target = e.target;
     if(!(target instanceof HTMLInputElement)) return;
-    if(target.id === "show-monthly-pay" || target.id === "show-net-pay" || target.id === "show-diff"){
+    if(target.id === "show-monthly-pay" || target.id === "show-net-pay"){
       setDirty(true);
       render();
     }
@@ -4692,3 +4622,5 @@
 </script>
 </body>
 </html>
+
+
