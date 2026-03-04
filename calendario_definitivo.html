@@ -3155,7 +3155,7 @@
   }
   async function autoLoadNetlifyOnce(){
     if(NETLIFY_DB_AUTO_LOADED) return;
-    if(!document.body.classList.contains("mobile-export")) return;
+    if(location.protocol !== "http:" && location.protocol !== "https:") return;
     NETLIFY_DB_AUTO_LOADED = true;
     await loadFromNetlifyDb({ silent: true });
   }
