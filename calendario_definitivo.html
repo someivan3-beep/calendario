@@ -128,27 +128,6 @@
       gap:8px;
       align-items:center;
     }
-    .view-toggle{
-      display:flex;
-      gap:6px;
-      align-items:center;
-    }
-    .view-toggle button{
-      width:auto;
-      padding:6px 10px;
-      font-size:11px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid #cfd5df;
-      color:#111827;
-      box-shadow:var(--shadow-inset);
-      cursor:pointer;
-    }
-    .view-toggle button.active{
-      background:#111827;
-      color:#fff;
-      border-color:#111827;
-    }
     .worker-focus-buttons{
       display:flex;
       flex-wrap:wrap;
@@ -539,20 +518,39 @@
       h1{ font-size:26px; }
       .page{ padding:20px 16px 28px; }
     }
-    @media (min-width: 901px){
-      .view-toggle{
-        display:none;
-      }
-    }
-    @media (max-width: 640px){
+    @media (max-width: 900px){
       .topbar{
         position:static;
         padding:10px;
       }
-      .topbar input,
-      .topbar select{
-        min-width:140px;
+      .topbar .topbar-group{
+        min-width:0;
       }
+      .topbar .topbar-group:first-child{
+        width:100%;
+        flex-wrap:nowrap;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        white-space:nowrap;
+      }
+      .topbar .topbar-group:last-child,
+      #top-save-netlify,
+      #save-status{
+        display:none !important;
+      }
+      .worker-focus-buttons{
+        flex-wrap:nowrap;
+      }
+      .worker-focus-buttons button,
+      #go-today{
+        flex:0 0 auto;
+        width:auto;
+      }
+      .legend{
+        display:none !important;
+      }
+    }
+    @media (max-width: 640px){
       button, select, input{
         min-height:40px;
       }
@@ -1178,6 +1176,17 @@
       letter-spacing:0.2px;
       text-transform:uppercase;
     }
+    .manual-draggable{
+      cursor:grab;
+    }
+    .manual-draggable:active{
+      cursor:grabbing;
+    }
+    .manual-selected{
+      outline:2px solid rgba(17,24,39,0.9);
+      outline-offset:-2px;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,0.9);
+    }
     .M{
       background:linear-gradient(180deg, rgba(255,106,91,0.9), rgba(255,106,91,0.75));
       color:#141414;
@@ -1379,10 +1388,7 @@
     body.mobile-export h1{
       font-size:20px;
     }
-    body.mobile-export .legend{
-      gap:6px;
-      font-size:10px;
-    }
+    body.mobile-export .legend{ display:none !important; }
     body.mobile-export .warning-box{
       display:none;
     }
@@ -1570,10 +1576,6 @@
       <div class="topbar-group">
         <button id="go-today" class="secondary" type="button">Mes actual</button>
         <div id="worker-focus-buttons" class="worker-focus-buttons"></div>
-        <div id="view-toggle" class="view-toggle">
-          <button type="button" data-view="cards">Tarjetas</button>
-          <button type="button" data-view="table">Tabla</button>
-        </div>
       </div>
       <div class="topbar-group">
         <button id="top-save-netlify" class="secondary" type="button">Guardar</button>
@@ -1650,16 +1652,12 @@
                   <input id="vac-mode" type="checkbox" />
                   Modo vacaciones
                 </label>
-                <div class="vac-worker">
-                  <label for="vac-worker">Trabajador</label>
-                  <select id="vac-worker"></select>
-                </div>
                 <div class="vac-actions">
                   <button id="vac-apply" type="button">Aplicar</button>
                   <button id="vac-cancel" type="button" class="secondary">Cancelar</button>
                 </div>
                 <div id="vac-status" class="vac-status"></div>
-                <div class="vac-hint">Click en los días del trabajador seleccionado para marcar V (incluye libres). Pulsa Aplicar para recalcular.</div>
+                <div class="vac-hint">Click en cualquier día de cualquier trabajador para marcar V (incluye libres). Pulsa Aplicar para recalcular.</div>
               </div>
             </div>
           </details>
@@ -1912,9 +1910,11 @@
   let NETLIFY_DB_LOADED = false;
   let IS_DIRTY = false;
   let SUPPRESS_DIRTY = false;
+  let LANDSCAPE_HINT_SHOWN = false;
+  let MANUAL_SELECTED_CELL = null;
+  let MANUAL_CLIPBOARD = null;
+  let MANUAL_DRAG = null;
   const ANNUAL_TOGGLE_KEY = "tvacAnnualSummaryOpen";
-  let MOBILE_VIEW = "cards";
-  const MOBILE_VIEW_KEY = "tvacMobileView";
   let CURRENT_SCHEDULE = {};
   let CURRENT_COVER = {};
 
@@ -2227,6 +2227,113 @@
     updateHistoryButtons();
     return true;
   }
+  function parseManualCellRef(el){
+    if(!el) return null;
+    const dateStr = el.dataset.date;
+    const workerIdx = Number(el.dataset.worker);
+    if(!dateStr || !Number.isFinite(workerIdx)) return null;
+    return { dateStr, workerIdx };
+  }
+  function setManualSelection(dateStr, workerIdx){
+    if(!dateStr || !Number.isFinite(workerIdx)) return;
+    MANUAL_SELECTED_CELL = { dateStr, workerIdx };
+    refreshManualSelectionVisual();
+  }
+  function clearManualSelection(){
+    MANUAL_SELECTED_CELL = null;
+    refreshManualSelectionVisual();
+  }
+  function refreshManualSelectionVisual(){
+    document.querySelectorAll("#calendar .manual-selected").forEach((el) => el.classList.remove("manual-selected"));
+    if(!MANUAL_SELECTED_CELL) return;
+    const { dateStr, workerIdx } = MANUAL_SELECTED_CELL;
+    const selector = [
+      `#calendar td.cell[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+      `#calendar .day-pill[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+      `#calendar .day-worker[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+    ].join(",");
+    document.querySelectorAll(selector).forEach((el) => el.classList.add("manual-selected"));
+  }
+  function refreshManualDraggables(){
+    const manualOn = document.getElementById("manual-mode")?.checked;
+    const cells = document.querySelectorAll("#calendar td.cell, #calendar .day-pill, #calendar .day-worker");
+    cells.forEach((el) => {
+      const ref = parseManualCellRef(el);
+      const valid = manualOn && ref;
+      el.draggable = !!valid;
+      el.classList.toggle("manual-draggable", !!valid);
+    });
+  }
+  function getManualShiftFromRef(dateStr, workerIdx){
+    const manual = getManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx);
+    if(MANUAL_SHIFTS.has(manual)) return manual;
+    const selector = [
+      `#calendar td.cell[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+      `#calendar .day-pill[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+      `#calendar .day-worker[data-date="${dateStr}"][data-worker="${workerIdx}"]`,
+    ].join(",");
+    const el = document.querySelector(selector);
+    if(!el) return null;
+    const shift = el.dataset.shift;
+    if(!MANUAL_SHIFTS.has(shift)) return null;
+    return shift;
+  }
+  function applyManualShift(dateStr, workerIdx, shift){
+    if(getVacationDisplay(dateStr, workerIdx)) return false;
+    if(MANUAL_SHIFTS.has(shift)){
+      setManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx, shift);
+    }else{
+      setManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx, null);
+    }
+    return true;
+  }
+  function copyManualSelectionToClipboard(){
+    if(!MANUAL_SELECTED_CELL) return false;
+    const { dateStr, workerIdx } = MANUAL_SELECTED_CELL;
+    const shift = getManualShiftFromRef(dateStr, workerIdx);
+    if(!MANUAL_SHIFTS.has(shift)){
+      showToast("No hay turno válido para copiar.");
+      return false;
+    }
+    MANUAL_CLIPBOARD = { shift };
+    showToast(`Copiado: ${shift}`);
+    return true;
+  }
+  function cutManualSelectionToClipboard(){
+    if(!MANUAL_SELECTED_CELL) return false;
+    const { dateStr, workerIdx } = MANUAL_SELECTED_CELL;
+    const manual = getManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx);
+    if(!MANUAL_SHIFTS.has(manual)){
+      showToast("Solo puedes cortar cambios manuales.");
+      return false;
+    }
+    MANUAL_CLIPBOARD = { shift: manual };
+    setManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx, null);
+    pushGlobalHistory();
+    saveConfig();
+    setDirty(true);
+    render();
+    showToast(`Cortado: ${manual}`);
+    return true;
+  }
+  function pasteManualClipboard(){
+    if(!MANUAL_SELECTED_CELL) return false;
+    if(!MANUAL_CLIPBOARD || !MANUAL_SHIFTS.has(MANUAL_CLIPBOARD.shift)){
+      showToast("No hay nada en el portapapeles manual.");
+      return false;
+    }
+    const { dateStr, workerIdx } = MANUAL_SELECTED_CELL;
+    if(!applyManualShift(dateStr, workerIdx, MANUAL_CLIPBOARD.shift)){
+      showToast("No puedes pegar sobre vacaciones.");
+      return false;
+    }
+    pushGlobalHistory();
+    saveConfig();
+    setDirty(true);
+    render();
+    showToast(`Pegado: ${MANUAL_CLIPBOARD.shift}`);
+    return true;
+  }
   function updateVacationStatus(){
     const status = document.getElementById("vac-status");
     const applyBtn = document.getElementById("vac-apply");
@@ -2244,12 +2351,10 @@
   }
   function updateVacationAvailability(enabled){
     const vacMode = document.getElementById("vac-mode");
-    const vacWorker = document.getElementById("vac-worker");
     const vacApply = document.getElementById("vac-apply");
     const vacCancel = document.getElementById("vac-cancel");
     const status = document.getElementById("vac-status");
     if(vacMode) vacMode.disabled = !enabled;
-    if(vacWorker) vacWorker.disabled = !enabled;
     if(vacApply) vacApply.disabled = !enabled;
     if(vacCancel) vacCancel.disabled = !enabled;
     if(status && !enabled){
@@ -2286,26 +2391,6 @@
       }
     });
     return misses;
-  }
-  function syncVacationWorkers(workers){
-    const select = document.getElementById("vac-worker");
-    if(!select) return;
-    const pref = select.dataset.pref;
-    const current = select.value;
-    select.innerHTML = "";
-    workers.forEach((name, idx) => {
-      const opt = document.createElement("option");
-      opt.value = String(idx);
-      opt.textContent = name;
-      select.appendChild(opt);
-    });
-    const desired = (pref !== undefined && pref !== null && pref !== "") ? pref : current;
-    if(desired !== undefined && desired !== null && desired !== ""){
-      if(select.querySelector(`option[value="${desired}"]`)){
-        select.value = desired;
-      }
-    }
-    select.dataset.pref = "";
   }
   function syncManualWorkers(workers){
     const select = document.getElementById("manual-worker");
@@ -2364,7 +2449,7 @@
       btn.textContent = label;
       btn.dataset.filter = value;
       if(String(CURRENT_WORKER_FILTER) === String(value)) btn.classList.add("active");
-      btn.addEventListener("click", () => setWorkerFilter(value));
+      btn.addEventListener("click", () => setWorkerFilter(value, true));
       return btn;
     };
     wrap.appendChild(makeBtn("Todos", "all"));
@@ -2388,7 +2473,7 @@
     rows.forEach((row) => (row.dataset.worker === String(filter) ? show(row) : hide(row)));
     cards.forEach((card) => (card.dataset.worker === String(filter) ? show(card) : hide(card)));
   }
-  function setWorkerFilter(value){
+  function setWorkerFilter(value, userAction = false){
     CURRENT_WORKER_FILTER = value;
     try{
       localStorage.setItem(FILTER_KEY, String(value));
@@ -2403,6 +2488,33 @@
     });
     applyWorkerFilter();
     applyMobileView();
+    if(value !== "all"){
+      LANDSCAPE_HINT_SHOWN = false;
+    }
+    void tryLandscapeOnAll(value, userAction);
+  }
+  async function tryLandscapeOnAll(value, userAction){
+    if(!userAction) return;
+    if(value !== "all") return;
+    if(document.body.classList.contains("mobile-export")) return;
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    if(!isMobile) return;
+    const orientationApi = window.screen && window.screen.orientation;
+    if(!orientationApi || typeof orientationApi.lock !== "function"){
+      if(!LANDSCAPE_HINT_SHOWN){
+        LANDSCAPE_HINT_SHOWN = true;
+        showToast("Para 'Todos', gira el móvil a horizontal.");
+      }
+      return;
+    }
+    try{
+      await orientationApi.lock("landscape");
+    }catch(_e){
+      if(!LANDSCAPE_HINT_SHOWN){
+        LANDSCAPE_HINT_SHOWN = true;
+        showToast("Para 'Todos', gira el móvil a horizontal.");
+      }
+    }
   }
   function renderTopbarFilterButtons(workers){
     const wrap = document.getElementById("worker-focus-buttons");
@@ -2414,7 +2526,7 @@
       btn.textContent = label;
       btn.dataset.filter = value;
       if(String(CURRENT_WORKER_FILTER) === String(value)) btn.classList.add("active");
-      btn.addEventListener("click", () => setWorkerFilter(value));
+      btn.addEventListener("click", () => setWorkerFilter(value, true));
       return btn;
     };
     wrap.appendChild(makeBtn("Todos", "all"));
@@ -2430,43 +2542,14 @@
       }
     }catch(_e){}
   }
-  function loadMobileView(){
-    try{
-      const stored = localStorage.getItem(MOBILE_VIEW_KEY);
-      if(stored === "table" || stored === "cards") MOBILE_VIEW = stored;
-    }catch(_e){}
-  }
-  function updateMobileViewButtons(){
-    const wrap = document.getElementById("view-toggle");
-    if(!wrap) return;
-    const isAll = CURRENT_WORKER_FILTER === "all";
-    wrap.querySelectorAll("button").forEach((btn) => {
-      if(isAll){
-        const isTable = btn.dataset.view === "table";
-        btn.disabled = !isTable;
-        btn.classList.toggle("active", isTable);
-      }else{
-        btn.disabled = false;
-        btn.classList.toggle("active", btn.dataset.view === MOBILE_VIEW);
-      }
-    });
-  }
   function applyMobileView(){
     const isMobile = window.matchMedia("(max-width: 900px)").matches || document.body.classList.contains("mobile-export");
     if(!isMobile){
       document.body.classList.remove("mobile-cards");
       return;
     }
-    const forceTable = CURRENT_WORKER_FILTER === "all";
-    if(forceTable && MOBILE_VIEW !== "table"){
-      MOBILE_VIEW = "table";
-      try{
-        localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
-      }catch(_e){}
-    }
-    const useCards = !forceTable && MOBILE_VIEW !== "table";
+    const useCards = CURRENT_WORKER_FILTER !== "all";
     document.body.classList.toggle("mobile-cards", useCards);
-    updateMobileViewButtons();
   }
   function renderLegend(usage){
     const legend = document.querySelector(".legend");
@@ -2935,7 +3018,6 @@
       showMonthlyPay: document.getElementById("show-monthly-pay")?.checked || false,
       showNetPay: document.getElementById("show-net-pay")?.checked || false,
       vacMode: document.getElementById("vac-mode")?.checked || false,
-      vacWorker: document.getElementById("vac-worker")?.value || "0",
       manualMode: document.getElementById("manual-mode")?.checked || false,
       manualWorker: document.getElementById("manual-worker")?.value || "0",
       manualShift: document.getElementById("manual-shift")?.value || "M",
@@ -2982,10 +3064,6 @@
     if(cfg.salaryWorker !== undefined && cfg.salaryWorker !== null){
       const salarySelect = document.getElementById("salary-worker");
       if(salarySelect) salarySelect.dataset.pref = String(cfg.salaryWorker);
-    }
-    if(cfg.vacWorker !== undefined && cfg.vacWorker !== null){
-      const select = document.getElementById("vac-worker");
-      if(select) select.dataset.pref = String(cfg.vacWorker);
     }
     if(cfg.manualWorker !== undefined && cfg.manualWorker !== null){
       const select = document.getElementById("manual-worker");
@@ -3763,14 +3841,12 @@
       document.getElementById("w5").value.trim() || "E",
     ];
     loadWorkerFilter();
-    loadMobileView();
     if(CURRENT_WORKER_FILTER !== "all"){
       const idx = Number(CURRENT_WORKER_FILTER);
       if(!Number.isFinite(idx) || idx < 0 || idx >= workers.length){
         CURRENT_WORKER_FILTER = "all";
       }
     }
-    syncVacationWorkers(workers);
     syncManualWorkers(workers);
     syncSalaryWorkers(workers);
     renderWorkerFilterButtons(workers);
@@ -3865,6 +3941,8 @@
     applyWorkerFilter();
     updateVacationModeClass();
     updateManualModeClass();
+    refreshManualDraggables();
+    refreshManualSelectionVisual();
     updateVacationStatus();
     if(document.body.classList.contains("mobile-export")){
       setTimeout(() => {
@@ -3884,7 +3962,11 @@
   }
 
   document.getElementById("render").addEventListener("click", render);
-  document.getElementById("reset").addEventListener("click", resetCalendarAndVacations);
+  document.getElementById("reset").addEventListener("click", () => {
+    const ok = window.confirm("¿Seguro que quieres resetear calendario, vacaciones y cambios manuales?");
+    if(!ok) return;
+    resetCalendarAndVacations();
+  });
   const undoBtn = document.getElementById("undo-change");
   const redoBtn = document.getElementById("redo-change");
   if(undoBtn){
@@ -3914,7 +3996,6 @@
   const netlifySaveBtn = document.getElementById("netlify-save");
   const goTodayBtn = document.getElementById("go-today");
   const topSaveNetlify = document.getElementById("top-save-netlify");
-  const viewToggle = document.getElementById("view-toggle");
   if(exportBtn){
     exportBtn.addEventListener("click", () => {
       const cfg = collectConfig();
@@ -3982,17 +4063,6 @@
       if(target){
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    });
-  }
-  if(viewToggle){
-    viewToggle.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-view]");
-      if(!btn) return;
-      MOBILE_VIEW = btn.dataset.view === "table" ? "table" : "cards";
-      try{
-        localStorage.setItem(MOBILE_VIEW_KEY, MOBILE_VIEW);
-      }catch(_e){}
-      applyMobileView();
     });
   }
   const exportHtmlBtn = document.getElementById("export-html");
@@ -4147,7 +4217,7 @@
     if(body){
       if(mobile){
         body.classList.add("mobile-export");
-        const useCards = CURRENT_WORKER_FILTER !== "all" && MOBILE_VIEW !== "table";
+        const useCards = CURRENT_WORKER_FILTER !== "all";
         if(useCards) body.classList.add("mobile-cards");
       }
       body.classList.remove("modal-open");
@@ -4392,7 +4462,6 @@
     });
   });
   const vacMode = document.getElementById("vac-mode");
-  const vacWorker = document.getElementById("vac-worker");
   const manualMode = document.getElementById("manual-mode");
   const manualWorker = document.getElementById("manual-worker");
   const manualShift = document.getElementById("manual-shift");
@@ -4410,23 +4479,21 @@
       setDirty(true);
     });
   }
-  if(vacWorker){
-    vacWorker.addEventListener("change", () => {
-      saveConfig();
-      setDirty(true);
-    });
-  }
   if(manualMode){
     manualMode.addEventListener("change", () => {
       if(manualMode.checked && vacMode) vacMode.checked = false;
       updateVacationModeClass();
       updateManualModeClass();
+      if(!manualMode.checked) clearManualSelection();
+      refreshManualDraggables();
       saveConfig();
       setDirty(true);
     });
   }
   if(manualWorker){
     manualWorker.addEventListener("change", () => {
+      clearManualSelection();
+      refreshManualDraggables();
       saveConfig();
       setDirty(true);
     });
@@ -4486,22 +4553,20 @@
   const calendarEl = document.getElementById("calendar");
   if(calendarEl){
     calendarEl.addEventListener("click", (e) => {
-      const cell = e.target.closest("td.cell, .day-pill");
+      const cell = e.target.closest("td.cell, .day-pill, .day-worker");
       if(!cell) return;
       const workerIdx = Number(cell.dataset.worker || "0");
       const dateStr = cell.dataset.date;
       if(!dateStr) return;
       const manualOn = document.getElementById("manual-mode")?.checked;
       if(manualOn){
-        const selected = Number(document.getElementById("manual-worker")?.value || "0");
-        if(workerIdx !== selected) return;
-        if(getVacationDisplay(dateStr, workerIdx)) return;
+        setManualSelection(dateStr, workerIdx);
+        if(e.ctrlKey || e.metaKey) return;
         const desired = document.getElementById("manual-shift")?.value || "";
-        if(e.altKey || !MANUAL_SHIFTS.has(desired)){
-          setManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx, null);
-        }else{
-          setManualOverride(MANUAL_OVERRIDES, dateStr, workerIdx, desired);
-        }
+        const ok = e.altKey
+          ? applyManualShift(dateStr, workerIdx, null)
+          : applyManualShift(dateStr, workerIdx, desired);
+        if(!ok) return;
         pushGlobalHistory();
         saveConfig();
         setDirty(true);
@@ -4510,20 +4575,98 @@
       }
       if(!document.getElementById("vac-mode")?.checked) return;
       if(!VACATIONS_ENABLED) return;
-      const selected = Number(document.getElementById("vac-worker")?.value || "0");
-      if(workerIdx !== selected) return;
       const changed = toggleVacation(dateStr, workerIdx);
       if(changed){
         setDirty(true);
         render();
       }
     });
+    calendarEl.addEventListener("dragstart", (e) => {
+      const manualOn = document.getElementById("manual-mode")?.checked;
+      if(!manualOn) return;
+      const cell = e.target.closest("td.cell, .day-pill, .day-worker");
+      const ref = parseManualCellRef(cell);
+      if(!ref){
+        e.preventDefault();
+        return;
+      }
+      const shift = getManualShiftFromRef(ref.dateStr, ref.workerIdx);
+      if(!MANUAL_SHIFTS.has(shift)){
+        e.preventDefault();
+        return;
+      }
+      const sourceManual = getManualOverride(MANUAL_OVERRIDES, ref.dateStr, ref.workerIdx);
+      MANUAL_DRAG = {
+        dateStr: ref.dateStr,
+        workerIdx: ref.workerIdx,
+        shift,
+        sourceIsManual: MANUAL_SHIFTS.has(sourceManual),
+      };
+      setManualSelection(ref.dateStr, ref.workerIdx);
+      if(e.dataTransfer){
+        e.dataTransfer.effectAllowed = "copyMove";
+        e.dataTransfer.setData("text/plain", shift);
+      }
+    });
+    calendarEl.addEventListener("dragover", (e) => {
+      if(!MANUAL_DRAG) return;
+      const cell = e.target.closest("td.cell, .day-pill, .day-worker");
+      const ref = parseManualCellRef(cell);
+      if(!ref) return;
+      e.preventDefault();
+      if(e.dataTransfer){
+        e.dataTransfer.dropEffect = (e.ctrlKey || e.metaKey) ? "copy" : "move";
+      }
+    });
+    calendarEl.addEventListener("drop", (e) => {
+      if(!MANUAL_DRAG) return;
+      const cell = e.target.closest("td.cell, .day-pill, .day-worker");
+      const ref = parseManualCellRef(cell);
+      if(!ref) return;
+      e.preventDefault();
+      const copyOnly = e.ctrlKey || e.metaKey || !MANUAL_DRAG.sourceIsManual;
+      const changedTarget = applyManualShift(ref.dateStr, ref.workerIdx, MANUAL_DRAG.shift);
+      if(!changedTarget){
+        showToast("No puedes mover a un día de vacaciones.");
+        MANUAL_DRAG = null;
+        return;
+      }
+      if(!copyOnly){
+        setManualOverride(MANUAL_OVERRIDES, MANUAL_DRAG.dateStr, MANUAL_DRAG.workerIdx, null);
+      }
+      setManualSelection(ref.dateStr, ref.workerIdx);
+      MANUAL_DRAG = null;
+      pushGlobalHistory();
+      saveConfig();
+      setDirty(true);
+      render();
+    });
+    calendarEl.addEventListener("dragend", () => {
+      MANUAL_DRAG = null;
+    });
   }
   document.addEventListener("keydown", (e) => {
     const target = e.target;
     if(target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
-    if(!(e.ctrlKey || e.metaKey)) return;
+    const isCmd = e.ctrlKey || e.metaKey;
+    if(!isCmd) return;
     const key = e.key.toLowerCase();
+    const manualOn = document.getElementById("manual-mode")?.checked;
+    if(manualOn && key === "c" && !e.shiftKey){
+      e.preventDefault();
+      copyManualSelectionToClipboard();
+      return;
+    }
+    if(manualOn && key === "x" && !e.shiftKey){
+      e.preventDefault();
+      cutManualSelectionToClipboard();
+      return;
+    }
+    if(manualOn && key === "v" && !e.shiftKey){
+      e.preventDefault();
+      pasteManualClipboard();
+      return;
+    }
     if(key === "z" && !e.shiftKey){
       e.preventDefault();
       if(undoGlobalChange()){
